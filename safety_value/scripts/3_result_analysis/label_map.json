@@ -1,0 +1,15 @@
+{
+  "dpe": "$\\mathrm{DPE}$",
+  "lambda_reach": "$\\lambda$ (ours)",
+  "lambda_reach_lb": "$\\lambda$ + $L_{\\mathrm{lb}}$",
+  "lambda_reach_lb_mono": "$\\lambda$ + $L_{\\mathrm{lb,mono}}$",
+  "lambda_reach_lb_mono_bce": "$\\lambda$ + $L_{\\mathrm{lb,mono,bce}}$",
+  "lambda_reach_lb_mono_bce_lambda_0": "$\\lambda (0.0)$ + $L_{\\mathrm{lb,mono,bce}}$",
+  "lambda_reach_lb_mono_bce_lambda_0_9": "$\\lambda (0.9)$ + $L_{\\mathrm{lb,mono,bce}}$",
+  "supervised": "$\\mathrm{Supervised}~(miracle)$",
+  "w_supervised": "$\\mathrm{Weakly\\;Supervised}$",
+  "lambda_reach_lambda_0_95": "$\\lambda (0.95)$",
+  "lambda_reach_lambda_0_90": "$\\lambda (0.9)$",
+  "lambda_reach_lambda_0_50": "$\\lambda (0.5)$",
+  "lambda_reach_lambda_0_00": "$\\lambda (0)$"
+}

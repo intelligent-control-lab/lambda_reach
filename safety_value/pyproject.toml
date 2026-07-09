@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "safety-value"
+version = "0.1.0"
+description = "Safety value learning tools for the HJ humanoid project"
+license = { text = "PolyForm-Noncommercial-1.0.0" }
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=1.10.0",
+    "numpy>=1.20.0",
+    "matplotlib>=3.3.0",
+    "h5py>=3.0.0",
+    "tqdm>=4.60.0",
+]
+
+[tool.setuptools]
+packages = [
+    "safety_value",
+    "safety_value.safety_analysis_algos",
+    "safety_value.safety_analysis_algos.dpe",
+    "safety_value.safety_analysis_algos.lambda_reachability",
+    "safety_value.safety_analysis_algos.supervised",
+    "safety_value.safety_analysis_algos.weakly_supervised",
+]
+package-dir = { "safety_value" = "." }

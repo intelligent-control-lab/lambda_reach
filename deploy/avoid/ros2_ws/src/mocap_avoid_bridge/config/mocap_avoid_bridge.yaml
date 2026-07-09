@@ -1,0 +1,33 @@
+mocap_avoid_bridge:
+  ros__parameters:
+    # Topics published by the NatNet ROS2 driver after rigid bodies are registered in Motive.
+    base_pose_topic: /g1_base/pose
+    ball_pose_topic: /avoid_ball/pose
+
+    # Published bridge output. Data order:
+    # [ball_pos_base_x, ball_pos_base_y, ball_pos_base_z,
+    #  ball_vel_base_x, ball_vel_base_y, ball_vel_base_z]
+    output_topic: /avoid/mocap_observation
+    valid_topic: /avoid/mocap_valid
+    publish_debug_twist: true
+    base_twist_topic: /avoid/debug/base_twist
+    ball_twist_topic: /avoid/debug/ball_twist
+
+    # The Unitree avoid policy runs at 50 Hz. The bridge can run at the same rate
+    # while consuming higher-rate NatNet pose callbacks asynchronously.
+    output_rate_hz: 50.0
+    max_pose_age_s: 0.10
+    max_stamp_delta_s: 0.04
+
+    # EMA velocity filter: filtered = alpha * raw + (1 - alpha) * previous.
+    # Lower alpha is smoother but adds more lag.
+    velocity_filter_alpha: 0.35
+    velocity_min_dt_s: 0.001
+    velocity_max_dt_s: 0.20
+    max_velocity_mps: 20.0
+
+    # Optional UDP output for a non-ROS real-time controller process.
+    # Disabled by default so this package cannot affect existing control behavior.
+    udp_enabled: false
+    udp_host: 127.0.0.1
+    udp_port: 15151

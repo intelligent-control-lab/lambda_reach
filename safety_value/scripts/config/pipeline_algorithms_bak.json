@@ -1,0 +1,95 @@
+{
+  "defaults": {
+    "epochs": 1,
+    "batch": 256,
+    "lr": 0.001,
+    "hidden_dims": [256, 256],
+    "eval_steps": 500,
+    "eval_batches": 100,
+    "total_steps": 2000,
+    "train_seeds": [4836]
+  },
+  "algorithms": {
+    "dpe": {
+      "enabled": true,
+      "include_base": true,
+      "tag": "dpe",
+      "train_params": {
+        "epochs": 100,
+        "lam": 0.9,
+        "lambda_update_steps": 500,
+        "lambda_max": 0.99,
+        "lambda_increase_ratio": 0.1,
+        "loss_converge_tol": 0.01,
+        "use_target_network": true,
+        "target_update_steps": 10,
+        "target_tau": 0.05
+      }
+    },
+    "weakly_supervised": {
+      "enabled": true,
+      "include_base": true,
+      "tag": "w_supervised",
+      "train_params": {
+        "epochs": 1,
+        "margin": 0.1
+      }
+    },
+    "supervised": {
+      "enabled": true,
+      "include_base": true,
+      "tag": "supervised",
+      "train_params": {
+        "epochs": 1
+      }
+    },
+    "lambda_reachability": {
+      "enabled": true,
+      "include_base": true,
+      "tag": "lambda_reach",
+      "train_params": {
+        "epochs": 1,
+        "lambda_param": 0.99,
+        "max_horizon": 200,
+        "alpha_bce": 5.0,
+        "weight_main": 1.0,
+        "weight_hinge_lb": 0.0,
+        "weight_hinge_mono": 0.0,
+        "weight_bce": 0.0,
+        "target_tau_lambda": 0.05,
+        "target_update_period": 10
+      },
+      "ablations": {
+        "lb": {
+          "enabled": true,
+          "weight_hinge_lb": 0.5
+        },
+        "lb_mono": {
+          "enabled": true,
+          "weight_hinge_lb": 0.5,
+          "weight_hinge_mono": 0.5
+        },
+        "lb_mono_bce": {
+          "enabled": true,
+          "weight_hinge_lb": 0.2,
+          "weight_hinge_mono": 0.2,
+          "weight_bce": 0.2
+        },
+        "lb_mono_bce_lambda_0_9": {
+          "enabled": true,
+          "weight_hinge_lb": 0.5,
+          "weight_hinge_mono": 0.5,
+          "weight_bce": 0.5,
+          "lambda_param": 0.9
+        },
+        "lb_mono_bce_lambda_0": {
+          "enabled": true,
+          "weight_hinge_lb": 0.5,
+          "weight_hinge_mono": 0.5,
+          "weight_bce": 0.5,
+          "lambda_param": 0.00
+        }
+      }
+    }
+  }
+}

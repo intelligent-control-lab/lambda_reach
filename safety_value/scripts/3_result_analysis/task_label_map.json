@@ -1,0 +1,5 @@
+{
+  "g1_flat_ppo_1000": "$\\mathrm{G1~Flat}$",
+  "g1_rough_ppo_1000": "$\\mathrm{G1~Rough}$",
+  "g1_collision_avoid_flat_ppo_1450": "$\\mathrm{G1~Collision}$"
+}

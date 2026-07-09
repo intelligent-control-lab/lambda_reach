@@ -1,0 +1,17 @@
+python safety_value/scripts/2_safety_analysis/train.py \
+  --safety_analysis_root g1_flat_ppo_1000 \
+  --algo lambda_reachability \
+  --total_steps 2000 \
+  --eval_steps 500 \
+  --batch 256 \
+  --lr 1e-3 \
+  --lambda_param 0.99 \
+  --max_horizon 200 \
+  --alpha_bce 5.0 \
+  --weight_main 1.0 \
+  --weight_hinge_lb 0.2 \
+  --weight_hinge_mono 0.2 \
+  --weight_bce 0.2 \
+  --target_tau_lambda 0.05 \
+  --target_update_period 10 \
+  --run_name debug

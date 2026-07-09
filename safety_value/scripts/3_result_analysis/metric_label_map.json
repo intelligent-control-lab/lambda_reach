@@ -1,0 +1,18 @@
+{
+  "y_default": null,
+  "y": {
+    "value_mse": "$\\mathrm{MSE}$",
+    "train_value_mse": "$\\mathrm{MSE}$",
+    "eval_value_mse": "$\\mathrm{MSE}$",
+    "train_inv_acc": "$\\mathrm{Accuracy}$",
+    "eval_inv_acc": "$\\mathrm{Accuracy}$"
+  },
+  "title_default": null,
+  "title": {
+    "value_mse": "$\\mathrm{Value~MSE}$",
+    "train_value_mse": "$\\mathrm{Training~Value~MSE}$",
+    "eval_value_mse": "$\\mathrm{Testing~Value~MSE}$",
+    "train_inv_acc": "$\\mathrm{Training~Invariance~Acc}$",
+    "eval_inv_acc": "$\\mathrm{Testing~Invariance~Acc}$"
+  }
+}
