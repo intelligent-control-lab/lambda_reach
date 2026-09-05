@@ -106,6 +106,10 @@ svg {
   stroke-linejoin:round
 }
 
+.youtube-icon {
+  stroke:none
+}
+
 .shell {
   width:min(1180px,calc(100% - 64px));
   margin-inline:auto
@@ -371,6 +375,17 @@ h1 {
   font-size:.92rem;
   color:var(--ink);
   line-height:1.9
+}
+
+.authors a {
+  text-decoration:underline;
+  text-decoration-color:#b3c4bb;
+  text-underline-offset:4px;
+  white-space:nowrap
+}
+
+.authors a:hover {
+  text-decoration-color:currentColor
 }
 
 .authors span {
