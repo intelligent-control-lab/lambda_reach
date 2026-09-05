@@ -49,7 +49,7 @@ Original and exported contact sheets were visually reviewed. Mosaic regions, the
 - Slider checked at λ = 0, 0.5, 0.95, and 0.99 (mean horizons 1, 2, 20, 100).
 - No JavaScript exceptions or HTTP asset errors during the browser interaction check.
 - Preview uses a byte-range-capable server because Python's basic `http.server` can clamp a chapter seek to the start before the media is buffered.
-- Hosting layout: a separate `gh-pages` branch, with `docs/` selected as the GitHub Pages source. Research code remains on `main`.
+- Hosting layout: a separate `gh-pages` branch, with the branch root selected as the GitHub Pages source. The root entry is generated from `docs/index.html`. Research code remains on `main`.
 
 ## Website refinements
 

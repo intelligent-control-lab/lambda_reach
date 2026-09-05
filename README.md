@@ -15,7 +15,9 @@ Open **http://127.0.0.1:8000**. Stop the server with Ctrl+C. If that port is in 
 
 ## Files
 
-- `docs/index.html`: page content, paper and code links, author affiliations, results, BibTeX.
+- `docs/index.html`: editable page content, paper/code links, author affiliations, results, BibTeX.
+- `index.html`: generated entry point for the public project URL.
+- `scripts/sync_pages.py`: synchronizes the generated entry with `docs/index.html`.
 - `docs/assets/css/site.css`: responsive visual design.
 - `docs/assets/js/site.js`: experiment filters, trial selection, chapter navigation, horizon illustration, citation copying.
 - `docs/assets/videos/`: eight prepared hardware clips plus the full research video.
@@ -41,18 +43,21 @@ This is the **`gh-pages` website branch** of
 [`intelligent-control-lab/lambda_reach`](https://github.com/intelligent-control-lab/lambda_reach).
 It has independent history and contains only the website and its supporting files.
 The `main` branch contains the research code. Do not merge this branch into `main`.
-The layout follows [`spark`'s `gh-pages` branch](https://github.com/intelligent-control-lab/spark/tree/gh-pages), which keeps its site in `docs/`.
+The layout follows [`spark`'s `gh-pages` branch](https://github.com/intelligent-control-lab/spark/tree/gh-pages), which keeps its site in `docs/`. This repository also has a generated root entry so visitors can open the project URL directly.
 
 Publishing source in [repository Settings → Pages](https://github.com/intelligent-control-lab/lambda_reach/settings/pages):
 
 - Source: **Deploy from a branch**
 - Branch: **gh-pages**
-- Folder: **/docs**
+- Folder: **/(root)**
 
-Once that source is enabled, every push to `gh-pages` republishes the site at:
+GitHub enabled Pages automatically when this branch was pushed. Every push to
+`gh-pages` republishes the site at:
 **https://intelligent-control-lab.github.io/lambda_reach/**
 No custom domain, build dependencies, or custom Actions workflow is required.
-`docs/.nojekyll` tells Pages to serve the prepared static files.
+The root `.nojekyll` tells Pages to serve the prepared static files.
+`docs/` remains the editable source, and `scripts/sync_pages.py` generates
+`index.html` with the correct asset paths for the public URL.
 
 All website work can be done from this directory:
 
@@ -60,7 +65,8 @@ All website work can be done from this directory:
 cd /home/yifan/Documents/lambda_reachibility
 git switch gh-pages
 # Edit the website, then preview it with python3 scripts/serve.py.
-git add docs README.md scripts media-manifest.json
+python3 scripts/sync_pages.py
+git add index.html docs README.md scripts media-manifest.json
 git commit -m "Update project website"
 git push origin gh-pages
 ```

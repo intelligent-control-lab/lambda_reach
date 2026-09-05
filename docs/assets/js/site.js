@@ -1,5 +1,8 @@
 'use strict';
 
+// Resolve media relative to this script so the site works from both published entry points.
+const assetsRoot = new URL('../', document.currentScript.src);
+
 const videos = [...document.querySelectorAll('video')];
 // Playback is always initiated by the visitor. Stop other players to avoid competing audio.
 videos.forEach(video => video.addEventListener('play', () => {
@@ -43,8 +46,8 @@ document.querySelectorAll('[data-clip]').forEach(button => {
     const card = button.closest('.experiment-card');
     const video = card.querySelector('video');
     video.pause();
-    video.poster = `./assets/posters/${button.dataset.clip}.jpg`;
-    video.querySelector('source').src = `./assets/videos/${button.dataset.clip}.mp4`;
+    video.poster = new URL(`posters/${button.dataset.clip}.jpg`, assetsRoot).href;
+    video.querySelector('source').src = new URL(`videos/${button.dataset.clip}.mp4`, assetsRoot).href;
     video.load();
     card.querySelectorAll('[data-clip]').forEach(item => {
       const active = item === button;
