@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>λ-Reachability · CoRL 2026</title>
+  <meta name="description" content="λ-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety. A CoRL 2026 paper from Carnegie Mellon University.">
+  <meta name="theme-color" content="#f5efe6">
+  <link rel="canonical" href="https://intelligent-control-lab.github.io/lambda_reach/">
+  <meta property="og:url" content="https://intelligent-control-lab.github.io/lambda_reach/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="λ-Reachability · CoRL 2026">
+  <meta property="og:description" content="Learning to anticipate humanoid safety violations with geometric-horizon safety Bellman equations.">
+  <meta property="og:image" content="https://intelligent-control-lab.github.io/lambda_reach/assets/posters/push-unsafe-1.jpg">
+  <meta property="og:image:alt" content="A Unitree G1 humanoid in a balance perturbation experiment">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://intelligent-control-lab.github.io/lambda_reach/assets/posters/push-unsafe-1.jpg">
+  <link rel="icon" href="./assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/css/site.css">
+  <script defer src="./assets/js/site.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#home"><span class="brand-symbol">λ</span> Reachability</a>
+    <nav aria-label="Main navigation">
+      <a href="#video">Video</a><a href="#experiments">Experiments</a><a href="#method">Method</a><a href="#results">Results</a><a href="#paper">Paper &amp; code <span aria-hidden="true">↗</span></a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="hero shell" id="home" aria-labelledby="title">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="venue"><span class="venue-dot" aria-hidden="true"></span> Accepted to CoRL 2026</p>
+        <h1 id="title"><span class="title-name">λ-Reachability</span><span class="title-subtitle">Geometric-Horizon Safety Bellman Equations for Humanoid Safety</span></h1>
+        <p class="hero-summary">Learning to anticipate a humanoid’s worst future safety condition—before a fall or collision occurs.</p>
+        <div class="actions">
+          <a class="button primary" href="https://arxiv.org/pdf/2606.16022" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6v18h12V7zM14 3v5h4M9 12h6M9 16h6"/></svg> Read the paper</a>
+          <a class="button secondary" href="https://github.com/intelligent-control-lab/lambda_reach" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5M14 4l-4 16"/></svg> Code <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <div class="media-heading"><span class="eyebrow">On the real robot</span><span class="small-label">Unitree G1</span></div>
+        <video controls muted loop playsinline preload="metadata" poster="./assets/posters/push-unsafe-1.jpg" aria-label="Slow-motion balance experiment: the G1 loses balance after an external push">
+          <source src="./assets/videos/push-unsafe-1.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="./assets/videos/push-unsafe-1.mp4">Download this clip.</a>
+        </video>
+        <figcaption><span class="caption-number">01 /</span><span>From a push to a loss of balance. Slow motion.<br><a href="#video">See the safety prediction in the full video <span aria-hidden="true">↗</span></a></span></figcaption>
+      </figure>
+    </div>
+    <div class="hero-bottom">
+      <div class="author-block">
+        <p class="authors">Rui Chen<sup>1</sup><span>·</span> Shangtao Li<sup>2</sup><span>·</span> Yifan Sun<sup>1</sup><span>·</span> Changliu Liu<sup>1</sup></p>
+        <p class="affiliations"><sup>1</sup> Robotics Institute &nbsp; <sup>2</sup> Mechanical Engineering<br>Carnegie Mellon University</p>
+      </div>
+      <div class="logos" aria-label="Research institutions">
+        <img src="./assets/images/ri-cmu-wordmark-new.png" alt="Carnegie Mellon University Robotics Institute" width="220" height="60">
+        <img src="./assets/images/icl_logo.jpg" alt="Intelligent Control Lab" width="130" height="74">
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell" id="video" aria-labelledby="video-title">
+    <div class="section-heading"><div><p class="eyebrow">01 / The idea in motion</p><h2 id="video-title">Look ahead.<br>Recognize risk earlier.</h2></div><p>A robot can look stable now and still be on a trajectory toward failure. λ-Reachability learns a safety value for a fixed policy that estimates the worst safety signal along its future trajectory.</p></div>
+    <figure class="overview-video media-panel">
+      <video id="overview-player" controls playsinline preload="metadata" poster="./assets/posters/overview.jpg" aria-label="Full research video with hardware comparisons, safety-value plots, and an explanation of lambda-Reachability" aria-describedby="overview-caption">
+        <source src="./assets/videos/overview.mp4" type="video/mp4">
+        <track kind="descriptions" src="./assets/overview-descriptions.vtt" srclang="en" label="Visual descriptions">
+        Your browser does not support embedded video. <a href="./assets/videos/overview.mp4">Download the research video.</a>
+      </video>
+      <figcaption id="overview-caption"><strong>Research overview</strong><span>Hardware demonstrations, geometric-horizon targets, and simulation comparisons. Playback speeds are marked in the video.</span></figcaption>
+    </figure>
+    <div class="chapters" aria-label="Video chapters">
+      <button type="button" data-seek="8"><span>00:08</span> Balance prediction</button>
+      <button type="button" data-seek="30"><span>00:30</span> Collision prediction</button>
+      <button type="button" data-seek="101"><span>01:41</span> The λ method</button>
+      <button type="button" data-seek="148"><span>02:28</span> Simulation comparison</button>
+    </div>
+  </section>
+
+  <section class="section shell" id="experiments" aria-labelledby="experiments-title">
+    <div class="section-heading"><div><p class="eyebrow">02 / Hardware experiments</p><h2 id="experiments-title">Similar disturbances.<br>Different outcomes.</h2></div><p>External pushes test balance; incoming balls test collision avoidance. Compare safe and unsafe outcomes on the physical G1. The gallery shows the supplied slow-motion footage; the full video above includes the safety-value traces.</p></div>
+    <div class="gallery-toolbar"><span>Explore the hardware trials</span><div class="segmented" role="group" aria-label="Filter experiments"><button type="button" class="is-active" data-filter="all" aria-pressed="true">All trials</button><button type="button" data-filter="push" aria-pressed="false">Balance</button><button type="button" data-filter="avoid" aria-pressed="false">Collision</button></div></div>
+    <div class="experiment-grid">
+      <article class="experiment-card" data-task="push">
+        <div class="experiment-top"><span class="eyebrow">Balance / G1 Flat</span><span class="outcome safe">Safe outcome</span></div>
+        <video controls muted playsinline preload="metadata" poster="./assets/posters/push-safe-2.jpg" aria-label="Slow-motion push trial with a safe balance outcome"><source src="./assets/videos/push-safe-2.mp4" type="video/mp4"></video>
+        <div class="experiment-body"><h3>Recovering from a push</h3><p>The robot remains upright after the perturbation.</p><div class="trial-picker" role="group" aria-label="Recovering from a push trial selection"><button type="button" data-clip="push-safe-2" aria-pressed="true" class="is-active">Front trial</button><button type="button" data-clip="push-safe-1" aria-pressed="false">Overhead trial</button></div></div>
+      </article>
+      <article class="experiment-card" data-task="push">
+        <div class="experiment-top"><span class="eyebrow">Balance / G1 Flat</span><span class="outcome unsafe">Unsafe outcome</span></div>
+        <video controls muted playsinline preload="metadata" poster="./assets/posters/push-unsafe-2.jpg" aria-label="Slow-motion push trial with a loss of balance"><source src="./assets/videos/push-unsafe-2.mp4" type="video/mp4"></video>
+        <div class="experiment-body"><h3>Crossing the balance boundary</h3><p>A push leads to a fall onto the protective mat.</p><div class="trial-picker" role="group" aria-label="Loss of balance trial selection"><button type="button" data-clip="push-unsafe-2" aria-pressed="true" class="is-active">Front trial</button><button type="button" data-clip="push-unsafe-1" aria-pressed="false">Overhead trial</button></div></div>
+      </article>
+      <article class="experiment-card" data-task="avoid">
+        <div class="experiment-top"><span class="eyebrow">Avoidance / G1 Collision</span><span class="outcome safe">Safe outcome</span></div>
+        <video controls muted playsinline preload="metadata" poster="./assets/posters/avoid-safe-1.jpg" aria-label="Slow-motion ball-avoidance trial with no collision"><source src="./assets/videos/avoid-safe-1.mp4" type="video/mp4"></video>
+        <div class="experiment-body"><h3>Passing without contact</h3><p>The incoming ball passes without hitting the robot.</p><div class="trial-picker" role="group" aria-label="Safe avoidance trial selection"><button type="button" data-clip="avoid-safe-1" aria-pressed="true" class="is-active">Trial 1</button><button type="button" data-clip="avoid-safe-2" aria-pressed="false">Trial 2</button></div></div>
+      </article>
+      <article class="experiment-card" data-task="avoid">
+        <div class="experiment-top"><span class="eyebrow">Avoidance / G1 Collision</span><span class="outcome unsafe">Unsafe outcome</span></div>
+        <video controls muted playsinline preload="metadata" poster="./assets/posters/avoid-unsafe-1.jpg" aria-label="Slow-motion ball-avoidance trial in which contact occurs"><source src="./assets/videos/avoid-unsafe-1.mp4" type="video/mp4"></video>
+        <div class="experiment-body"><h3>An impending collision</h3><p>The ball makes contact, violating the safety constraint.</p><div class="trial-picker" role="group" aria-label="Unsafe avoidance trial selection"><button type="button" data-clip="avoid-unsafe-1" aria-pressed="true" class="is-active">Trial 1</button><button type="button" data-clip="avoid-unsafe-2" aria-pressed="false">Trial 2</button></div></div>
+      </article>
+    </div>
+    <p class="note">Outcome labels describe what happens in each recorded trial. A “safe outcome” does not imply that the learned monitor remains negative throughout the trial.</p>
+  </section>
+
+  <section class="section shell" id="method" aria-labelledby="method-title">
+    <div class="section-heading"><div><p class="eyebrow">03 / Method</p><h2 id="method-title">A longer view of safety.</h2></div><p>One-step updates propagate future failures backward slowly. λ-Reachability learns from a geometric mixture of multi-step targets, bringing future safety information into each update.</p></div>
+    <div class="method-intro">
+      <div><span class="eyebrow">The quantity we learn</span><p class="equation" aria-label="V pi of x t equals the supremum of ell of x k, over k greater than or equal to t">V<sup>π</sup>(x<sub>t</sub>) = sup<sub class="under">k ≥ t</sub> ℓ(x<sub>k</sub>)</p><p>The worst future safety signal under policy π. Positive values indicate a future violation; the value’s magnitude describes the safety margin.</p></div>
+      <div class="signal-legend"><p><span class="signal-dot teal"></span><strong>ℓ(x): what is happening now</strong><span>Instantaneous balance or collision constraint.</span></p><p><span class="signal-dot rust"></span><strong>V<sup>π</sup>(x): what lies ahead</strong><span>Learned estimate of the worst future condition.</span></p></div>
+    </div>
+    <ol class="steps">
+      <li><span class="step-number">01</span><h3>Sample a horizon</h3><p>Draw n from a geometric distribution. λ controls how far the update looks into the future.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="n follows a geometric distribution with parameter one minus lambda"><mi>n</mi><mo>∼</mo><mi mathvariant="normal">Geom</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo></math></div></li>
+      <li><span class="step-number">02</span><h3>Observe the worst signal</h3><p>Take the maximum safety signal over the sampled trajectory segment.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Maximum of ell t through ell t plus n minus one"><mi mathvariant="normal">max</mi><mo>{</mo><msub><mi>ℓ</mi><mi>t</mi></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi>ℓ</mi><mrow><mi>t</mi><mo>+</mo><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>}</mo></math></div></li>
+      <li><span class="step-number">03</span><h3>Bootstrap probabilistically</h3><p>Include the terminal value with probability δⁿ; otherwise use a lower-bound terminal value.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="s follows a Bernoulli distribution with probability delta to the n"><mi>s</mi><mo>∼</mo><mi mathvariant="normal">Bernoulli</mi><mo>(</mo><msup><mi>δ</mi><mi>n</mi></msup><mo>)</mo></math></div></li>
+    </ol>
+    <div class="horizon-panel">
+      <div class="horizon-copy"><p class="eyebrow">Explore the horizon</p><h3>One parameter. <br>A different look ahead.</h3><p>Increase λ to shift probability toward longer trajectory segments.</p><label for="lambda-slider">Continuation probability <strong id="lambda-value">λ = 0.95</strong></label><input id="lambda-slider" type="range" min="0" max="99" value="95" step="1" aria-describedby="horizon-caveat"><div class="range-labels"><span>0 · one step</span><span>0.99 · longer horizons</span></div></div>
+      <div class="horizon-visual">
+        <div class="horizon-stat"><output id="horizon-value" for="lambda-slider">20</output><div>steps on average<span>E[n] = 1 / (1 − λ)</span></div></div>
+        <div class="distribution-heading"><span>Probability per five-step group</span><output id="distribution-scale" for="lambda-slider">Scale: 0–25%</output></div>
+        <div class="distribution" id="distribution" role="img" aria-label="Geometric horizon probabilities in equal five-step groups, from 1 to 100 steps"></div>
+        <div class="distribution-axis"><span>n = 1–5</span><span>Rollout horizon</span><span>96–100</span></div>
+        <div class="distribution-tail"><p>Beyond 100 steps<span>Combined probability · P(n ≥ 101) = λ¹⁰⁰</span></p><output id="tail-probability" for="lambda-slider" aria-label="Probability of a horizon beyond 100 steps">0.6%</output></div>
+        <p id="horizon-caveat">Bars show equal five-step groups; the remaining probability is reported separately above. This is the untruncated distribution. Training uses finite, truncated horizons.</p>
+      </div>
+    </div>
+    <div class="theory-note"><span class="theory-symbol" aria-hidden="true">λ → 1</span><p><strong>A connection to undiscounted reachability.</strong> The ideal operator is a contraction for δ &lt; 1, and its fixed point approaches the undiscounted safety value as λ → 1. These theoretical properties do not by themselves certify a learned neural model on hardware. <a href="https://arxiv.org/pdf/2606.16022#page=4" target="_blank" rel="noopener noreferrer">See §3 and Appendix A <span aria-hidden="true">↗</span></a></p></div>
+  </section>
+
+  <section class="section shell" id="results" aria-labelledby="results-title">
+    <div class="section-heading"><div><p class="eyebrow">04 / Results</p><h2 id="results-title">Earlier warnings.<br>More accurate safety values.</h2></div><p>The paper evaluates flat-ground balance, rough-terrain locomotion, and collision avoidance in simulation, with balance and collision experiments transferred to hardware.</p></div>
+    <div class="metrics">
+      <article><span class="eyebrow">Simulation · G1 Flat</span><strong>99.98<span>%</span></strong><h3>Temporal recall</h3><p>Compared with 22.05% for one-step discounted policy evaluation (DPE).</p></article>
+      <article><span class="eyebrow">Hardware · G1 Collision</span><strong>73.59<span>%</span></strong><h3>Temporal recall</h3><p>Compared with 13.52% for DPE on physical collision-avoidance trials.</p></article>
+      <article><span class="eyebrow">Hardware · G1 Flat</span><strong>0.19</strong><h3>Safety-value MSE</h3><p>Compared with 0.44 for DPE. Lower error means a more accurate safety margin.</p></article>
+    </div>
+    <p class="note">Reported means for λ = 0.99, from Tables 1–2. Temporal recall measures how much of the available pre-violation warning horizon is recovered; it is not a classification accuracy.</p>
+    <figure class="paper-figure"><img src="./assets/images/training-curves.png" alt="Paper Figure 3: safety-value MSE decreases and invariant-state classification accuracy increases faster with lambda 0.99 and 0.95 than with one-step DPE across G1 Flat, G1 Rough, and G1 Collision." width="1608" height="780" loading="lazy"><figcaption><strong>Learning across three simulation tasks.</strong> Safety-value error (top) and invariance classification accuracy (bottom). Figure 3 from the paper; the supervised method uses full-trajectory labels as a reference baseline.</figcaption></figure>
+    <div class="table-heading"><h3>From simulation to the real robot</h3><a href="https://arxiv.org/pdf/2606.16022#page=7" target="_blank" rel="noopener noreferrer">Full evaluation in the paper <span aria-hidden="true">↗</span></a></div>
+    <div class="table-scroll" role="region" aria-label="Temporal recall comparison" tabindex="0"><table><caption>Temporal recall (%) ↑ · mean ± standard deviation · λ = 0.99</caption><thead><tr><th scope="col">Evaluation</th><th scope="col">Task</th><th scope="col">DPE</th><th scope="col">λ-Reachability</th></tr></thead><tbody>
+      <tr><th scope="row">Simulation</th><td>G1 Flat</td><span>22.05</span> ± 12.30</td><td class="ours"><strong>99.98</strong> ± 0.21</td></tr>
+      <tr><th scope="row">Simulation</th><td>G1 Rough</td><span>21.94</span> ± 16.66</td><td class="ours"><strong>97.92</strong> ± 9.24</td></tr>
+      <tr><th scope="row">Simulation</th><td>G1 Collision</td><span>22.61</span> ± 14.50</td><td class="ours"><strong>99.40</strong> ± 4.79</td></tr>
+      <tr class="hardware-row"><th scope="row">Hardware</th><td>G1 Flat</td><span>62.07</span> ± 19.42</td><td class="ours"><strong>80.91</strong> ± 4.96</td></tr>
+      <tr><th scope="row">Hardware</th><td>G1 Collision</td><span>13.52</span> ± 6.97</td><td class="ours"><strong>73.59</strong> ± 9.20</td></tr>
+    </tbody></table></div>
+    <details class="limitations"><summary>Where the method still has limits <span aria-hidden="true">+</span></summary><div><p>Finite rollouts require truncated horizon sampling, which can bias the learning target. Longer horizons can also be less robust to noisy real observations: on hardware balance trials, shorter λ settings perform better on some metrics. The work learns safety values for a fixed policy; it does not synthesize a new safety controller.</p><a href="https://arxiv.org/pdf/2606.16022#page=8" target="_blank" rel="noopener noreferrer">Read the limitations and discussion in §5–6 <span aria-hidden="true">↗</span></a></div></details>
+  </section>
+
+  <section class="section shell paper-section" id="paper" aria-labelledby="paper-title">
+    <div class="paper-banner"><div><p class="eyebrow">05 / Continue exploring</p><h2 id="paper-title">Paper, code &amp; citation.</h2><p>Read the formulation and proofs, or explore the training and deployment workflows.</p></div><div class="actions"><a class="button primary" href="https://arxiv.org/abs/2606.16022" target="_blank" rel="noopener noreferrer">Paper on arXiv <span aria-hidden="true">↗</span></a><a class="button secondary" href="https://github.com/intelligent-control-lab/lambda_reach" target="_blank" rel="noopener noreferrer">GitHub code <span aria-hidden="true">↗</span></a></div></div>
+    <div class="citation-heading"><h3>BibTeX</h3><button id="copy-citation" type="button">Copy citation <span aria-hidden="true">⧉</span></button></div>
+    <pre id="citation"><code>@misc{chen2026lambdareachability,
+  title={$\lambda$-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety},
+  author={Rui Chen and Shangtao Li and Yifan Sun and Changliu Liu},
+  year={2026},
+  eprint={2606.16022},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2606.16022}
+}</code></pre>
+    <p class="note" id="copy-status" role="status" aria-live="polite">arXiv citation; accepted to CoRL 2026.</p>
+  </section>
+</main>
+<footer class="shell site-footer"><p><span class="footer-brand">λ-Reachability</span><br>Intelligent Control Lab · Carnegie Mellon University</p><p>Design adapted from our <a href="https://intelligent-control-lab.github.io/humanoid_stoppability/" target="_blank" rel="noopener noreferrer">Safe-Stoppability project</a>.<br><a href="#home">Back to top ↑</a></p></footer>
+</body>
+</html>

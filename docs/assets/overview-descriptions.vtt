@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00.000 --> 00:08.000
+The safety value is the worst safety signal along a future trajectory.
+
+00:08.000 --> 00:16.000
+A push disturbs the humanoid. The video marks the early warning, followed by loss of balance.
+
+00:16.000 --> 00:30.000
+Safe and unsafe balance trials are shown side by side in slow motion, above their safety-value traces.
+
+00:30.000 --> 00:49.000
+Two camera views show safe and unsafe ball-avoidance trials. The predicted safety value becomes positive before the collision.
+
+00:49.000 --> 01:41.000
+Diagrams compare safety Bellman updates and full-trajectory targets, illustrating slow propagation in one-step learning.
+
+01:41.000 --> 02:28.000
+The lambda-Reachability estimator samples a geometric horizon and bootstraps at the terminal state with a horizon-dependent probability.
+
+02:28.000 --> 02:47.000
+Simulation clips compare multi-step lambda learning and one-step learning for balance and collision tasks.
+
+02:47.000 --> 02:59.349
+Hardware collision footage and plots compare the lambda safety value, the one-step baseline, and the measured safety signal.

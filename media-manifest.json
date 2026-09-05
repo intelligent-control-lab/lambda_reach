@@ -1,0 +1,72 @@
+[
+  {
+    "output": "docs/assets/videos/push-safe-1.mp4",
+    "source": "web-material/web-material/push-safe 1/vid.mov",
+    "start": 0,
+    "duration": 19.28,
+    "privacy": "Reviewed overhead view; operator face outside frame.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/push-unsafe-1.mp4",
+    "source": "web-material/web-material/push-unsafe 1/vid.mov",
+    "start": 0,
+    "duration": 17.43,
+    "privacy": "Reviewed overhead view; operator face outside frame.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/push-safe-2.mp4",
+    "source": "web-material/web-material/push-safe 2/vid.mov",
+    "start": 0.15,
+    "duration": 14.1,
+    "privacy": "Coarse full-duration mosaic: x=1280 y=0 w=400 h=300, before scaling.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/push-unsafe-2.mp4",
+    "source": "web-material/web-material/push-unsafe 2/vid.mov",
+    "start": 0.15,
+    "duration": 14.1,
+    "privacy": "Coarse full-duration mosaic: x=1120 y=0 w=440 h=320, before scaling.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/avoid-safe-1.mp4",
+    "source": "web-material/web-material/avoid-safe 1/right vid.mov",
+    "start": 0,
+    "duration": 10.3,
+    "privacy": "Use alternate camera: operator face outside frame.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/avoid-unsafe-1.mp4",
+    "source": "web-material/web-material/avoid-unsafe 1/right vid.mov",
+    "start": 0,
+    "duration": 10.0,
+    "privacy": "Use alternate camera: operator face outside frame. Trim black tail.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/avoid-safe-2.mp4",
+    "source": "web-material/web-material/avoid-safe 2/vid.mov",
+    "start": 0,
+    "duration": 11.3,
+    "privacy": "Crop removes operator at left; retains robot and incoming ball.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/avoid-unsafe-2.mp4",
+    "source": "web-material/web-material/avoid-unsafe 2/vid.mov",
+    "start": 0,
+    "duration": 8.7,
+    "privacy": "Reviewed camera view; operator face outside frame.",
+    "audio": "removed"
+  },
+  {
+    "output": "docs/assets/videos/overview.mp4",
+    "source": "final_1.MOV",
+    "privacy": "Original crops retained; expanded opaque face mask x=265 y=148 w=56 h=45 from 39.5 to 49 seconds.",
+    "audio": "authored audio preserved"
+  }
+]

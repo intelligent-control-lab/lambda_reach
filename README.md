@@ -1,0 +1,80 @@
+# λ-Reachability project website
+
+A static project page for **λ-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety**, accepted to **CoRL 2026**. The page follows the warm palette, serif typography, section navigation, and research presentation of the lab's Safe-Stoppability website.
+
+## View locally
+
+No npm install or build step is needed. Python 3 is enough:
+
+```bash
+cd /home/yifan/Documents/lambda_reachibility
+python3 scripts/serve.py
+```
+
+Open **http://127.0.0.1:8000**. Stop the server with Ctrl+C. If that port is in use, run `python3 scripts/serve.py --port 8001` and open port 8001 instead. This server supports HTTP byte ranges, so video chapter buttons and seeking work correctly.
+
+## Files
+
+- `docs/index.html`: page content, paper and code links, author affiliations, results, BibTeX.
+- `docs/assets/css/site.css`: responsive visual design.
+- `docs/assets/js/site.js`: experiment filters, trial selection, chapter navigation, horizon illustration, citation copying.
+- `docs/assets/videos/`: eight prepared hardware clips plus the full research video.
+- `docs/assets/posters/`: thumbnails extracted only from the prepared videos.
+- `scripts/prepare_media.py`: reproducible FFmpeg privacy edits and web encodes.
+- `scripts/serve.py`: local preview server, restricted to the `docs` directory.
+- `media-manifest.json`: source-to-output mapping and exact redaction parameters.
+- `REVIEW.md`: paper review, website plan, media decisions, and verification notes.
+
+## Media preparation
+
+The original `final_1.MOV` and `web-material/` files are unchanged. Only prepared derivatives are loaded by the site. Recreate them with FFmpeg installed:
+
+```bash
+python3 scripts/prepare_media.py
+```
+
+Frontal push videos have a deliberately coarse mosaic over the operator's complete head path. Collision trials use an alternate camera angle or a crop that excludes the operator's face. The full research video retains its existing framing and receives an enlarged opaque mask for its distant operator. Gallery audio is removed; the authored overview audio is preserved. Slow-motion timing is retained except for small black-frame trims.
+
+## GitHub Pages hosting
+
+This is the **`gh-pages` website branch** of
+[`intelligent-control-lab/lambda_reach`](https://github.com/intelligent-control-lab/lambda_reach).
+It has independent history and contains only the website and its supporting files.
+The `main` branch contains the research code. Do not merge this branch into `main`.
+The layout follows [`spark`'s `gh-pages` branch](https://github.com/intelligent-control-lab/spark/tree/gh-pages), which keeps its site in `docs/`.
+
+Publishing source in [repository Settings → Pages](https://github.com/intelligent-control-lab/lambda_reach/settings/pages):
+
+- Source: **Deploy from a branch**
+- Branch: **gh-pages**
+- Folder: **/docs**
+
+Once that source is enabled, every push to `gh-pages` republishes the site at:
+**https://intelligent-control-lab.github.io/lambda_reach/**
+No custom domain, build dependencies, or custom Actions workflow is required.
+`docs/.nojekyll` tells Pages to serve the prepared static files.
+
+All website work can be done from this directory:
+
+```bash
+cd /home/yifan/Documents/lambda_reachibility
+git switch gh-pages
+# Edit the website, then preview it with python3 scripts/serve.py.
+git add docs README.md scripts media-manifest.json
+git commit -m "Update project website"
+git push origin gh-pages
+```
+
+The original videos, `web-material/`, and `.work/` are ignored and must stay local.
+Only privacy-edited MP4s and their derived posters are included in `docs/`.
+The research repository's license and notice files are preserved on this branch.
+
+## Content sources
+
+- Paper: https://arxiv.org/pdf/2606.16022 (v1, June 14, 2026).
+- Code and citation: https://github.com/intelligent-control-lab/lambda_reach.
+- CoRL 2026 acceptance: supplied by the project owner.
+- Visual reference: https://intelligent-control-lab.github.io/humanoid_stoppability/ and its local source.
+- Figures: extracted from the paper; institutional logos reused from the reference project.
+
+The page keeps the arXiv BibTeX entry because final proceedings metadata was not provided. The CoRL acceptance is displayed separately.
