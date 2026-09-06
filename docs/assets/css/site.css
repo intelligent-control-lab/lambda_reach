@@ -709,6 +709,26 @@ h1 {
   background:#e3aa85
 }
 
+.value-notes {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
+  margin-top:30px
+}
+
+.value-notes article {
+  padding-top:22px;
+  border-top:1px solid var(--line)
+}
+
+.value-notes h3 {
+  margin:12px 0 10px
+}
+
+.value-notes p:not(.eyebrow) {
+  font-size:.86rem
+}
+
 .steps {
   list-style:none;
   margin:30px 0;
@@ -932,52 +952,6 @@ h1 {
   white-space:nowrap
 }
 
-.metrics {
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  background:var(--paper);
-  overflow:hidden
-}
-
-.metrics article {
-  padding:29px 30px
-}
-
-.metrics article+article {
-  border-left:1px solid var(--line)
-}
-
-.metrics .eyebrow {
-  font-size:.62rem;
-  letter-spacing:.09em;
-  color:var(--muted)
-}
-
-.metrics strong {
-  display:block;
-  color:var(--teal);
-  font:400 clamp(2.3rem,4vw,3.75rem)/1.15 var(--serif);
-  letter-spacing:-.055em;
-  margin:16px 0 11px
-}
-
-.metrics strong span {
-  font-size:.5em;
-  margin-left:3px
-}
-
-.metrics h3 {
-  font-size:.88rem;
-  font-weight:650
-}
-
-.metrics p {
-  font-size:.79rem;
-  margin-top:9px
-}
-
 .paper-figure {
   margin-top:34px;
   border:1px solid var(--line);
@@ -1002,120 +976,6 @@ h1 {
 
 .paper-figure strong {
   color:var(--ink)
-}
-
-.table-heading {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  margin:40px 0 18px
-}
-
-.table-heading a {
-  font-size:.78rem;
-  color:var(--teal)
-}
-
-.table-scroll {
-  overflow-x:auto;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:var(--paper)
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-  text-align:left;
-  font-size:.85rem;
-  font-variant-numeric:tabular-nums;
-  white-space:nowrap
-}
-
-caption {
-  text-align:left;
-  color:var(--muted);
-  padding:16px 22px;
-  font-size:.75rem;
-  border-bottom:1px solid var(--line)
-}
-
-th,td {
-  padding:14px 22px;
-  border-bottom:1px solid #e7e6dc
-}
-
-thead th {
-  color:var(--muted);
-  font-size:.7rem;
-  font-weight:650;
-  text-transform:uppercase;
-  letter-spacing:.04em
-}
-
-tbody th {
-  font-size:.82rem;
-  font-weight:500
-}
-
-tbody td {
-  color:var(--muted)
-}
-
-td.ours {
-  background:#edf2ec;
-  color:var(--teal)
-}
-
-tr:last-child th,tr:last-child td {
-  border-bottom:0
-}
-
-.hardware-row th,.hardware-row td {
-  border-top:2px solid var(--line)
-}
-
-.limitations {
-  border-block:1px solid var(--line);
-  margin-top:28px
-}
-
-.limitations summary {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  list-style:none;
-  padding:20px 0;
-  font-size:.84rem;
-  font-weight:650;
-  cursor:pointer
-}
-
-.limitations summary::-webkit-details-marker {
-  display:none
-}
-
-.limitations summary span {
-  font-size:1.4rem;
-  font-weight:400;
-  color:var(--rust)
-}
-
-.limitations[open] summary span {
-  transform:rotate(45deg)
-}
-
-.limitations>div {
-  max-width:95ch;
-  padding-bottom:22px;
-  font-size:.85rem
-}
-
-.limitations a {
-  display:inline-block;
-  color:var(--teal);
-  margin-top:9px
 }
 
 .paper-banner {
@@ -1261,10 +1121,6 @@ pre {
   .method-intro {
     gap:30px;
     padding:30px
-  }
-
-  .metrics article {
-    padding:24px
   }
 
   .experiment-top {
@@ -1429,6 +1285,11 @@ pre {
     margin-top:18px
   }
 
+  .value-notes {
+    grid-template-columns:1fr;
+    gap:22px
+  }
+
   .steps {
     gap:22px
   }
@@ -1475,32 +1336,6 @@ pre {
 
   .theory-note p {
     font-size:.78rem
-  }
-
-  .metrics article {
-    padding:20px
-  }
-
-  .metrics .eyebrow {
-    font-size:.56rem
-  }
-
-  .metrics strong {
-    font-size:2.5rem
-  }
-
-  .metrics h3 {
-    font-size:.77rem
-  }
-
-  .metrics p {
-    font-size:.7rem
-  }
-
-  .table-heading {
-    align-items:flex-start;
-    flex-direction:column;
-    gap:8px
   }
 
   .paper-banner {
@@ -1713,36 +1548,6 @@ pre {
     white-space:normal
   }
 
-  .metrics {
-    grid-template-columns:1fr
-  }
-
-  .metrics article {
-    padding:23px 26px
-  }
-
-  .metrics article+article {
-    border-left:0;
-    border-top:1px solid var(--line)
-  }
-
-  .metrics .eyebrow {
-    font-size:.64rem
-  }
-
-  .metrics strong {
-    font-size:3.45rem;
-    margin:9px 0
-  }
-
-  .metrics h3 {
-    font-size:.87rem
-  }
-
-  .metrics p {
-    font-size:.8rem
-  }
-
   .note {
     font-size:.72rem
   }
@@ -1753,19 +1558,6 @@ pre {
 
   .paper-figure img {
     padding:4px
-  }
-
-  .table-heading h3 {
-    font-size:.98rem
-  }
-
-  th,td {
-    padding:12px 16px
-  }
-
-  caption {
-    padding:14px 16px;
-    font-size:.65rem
   }
 
   .paper-banner {

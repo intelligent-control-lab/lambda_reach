@@ -8,16 +8,16 @@ The website centers on policy evaluation: estimating the worst-over-future safet
 
 The method samples a geometric rollout horizon, computes a max-over-segment target, and includes the terminal value with probability δⁿ. For the ideal operator, δ < 1 induces contraction, while λ → 1 recovers the undiscounted value. Practical finite-horizon truncation and noisy hardware observations remain limitations.
 
-Values on the page were checked against Tables 1–2. The temporal recall comparison includes all three simulation tasks and both hardware tasks, with mean and standard deviation. Featured values use λ = 0.99. Temporal recall is labeled as a warning-horizon metric, not classification accuracy. The page explains that lower λ settings can perform better on some hardware balance metrics. Author order and affiliations follow page 1.
+The safety value definition and its sign/margin interpretation follow §2.1, and the learning explanation follows §3. The illustrative simulation sequences are Figure 2 from the paper. Quantitative metric cards, training curves, and comparison tables were removed at the project owner's request. Author order and affiliations follow page 1.
 
 ## Website plan implemented
 
-1. Hero: complete title, CoRL 2026 acceptance, authors, CMU/ICL branding, paper/code links, and a hardware clip.
+1. Hero: complete title, CoRL 2026 acceptance, linked author homepages, CMU/ICL branding, paper/code/YouTube links, and a hardware clip.
 2. Research overview: full authored video with four chapter buttons and visual descriptions.
-3. Hardware gallery: four outcome cards, eight selectable clips, and balance/collision filters.
-4. Method: safety-value definition, three-step learning explanation, and an interactive geometric-horizon illustration.
-5. Results: precisely labeled metrics, original training curves, and a simulation/hardware comparison table.
-6. Resources: manuscript, repository, copyable arXiv BibTeX, and reference-site attribution.
+3. Safety value functions: the worst-over-future definition, sign and margin interpretation, and Figure 2 showing current signals alongside predicted values.
+4. Main idea: three-step learning explanation and an interactive geometric-horizon illustration.
+5. Hardware gallery: four outcome cards, eight selectable clips, and balance/collision filters.
+6. Resources: manuscript, repository, the owner's copyable arXiv article BibTeX with website/YouTube/code links, and reference-site attribution.
 
 The reference's cream background, dark blue-green text, rust accent, serif headings, and rounded media panels are retained. The implementation uses plain HTML/CSS/JavaScript with responsive layouts and keyboard-accessible controls.
 
@@ -45,7 +45,7 @@ Original and exported contact sheets were visually reviewed. Mosaic regions, the
 
 - Chromium desktop/mobile layouts checked at 320, 390, 768, and 1440 px: no horizontal page overflow.
 - All eight gallery variants loaded, decoded, and advanced during playback.
-- Balance/collision filtering, trial switching, video chapters, λ slider, citation clipboard copy, and expandable limitations exercised.
+- Balance/collision filtering, trial switching, video chapters, λ slider, and citation clipboard copy exercised.
 - Slider checked at λ = 0, 0.5, 0.95, and 0.99 (mean horizons 1, 2, 20, 100).
 - No JavaScript exceptions or HTTP asset errors during the browser interaction check.
 - Preview uses a byte-range-capable server because Python's basic `http.server` can clamp a chapter seek to the start before the media is buffered.

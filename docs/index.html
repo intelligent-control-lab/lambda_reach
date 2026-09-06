@@ -25,7 +25,7 @@
   <div class="header-inner">
     <a class="brand" href="#home"><span class="brand-symbol">λ</span> Reachability</a>
     <nav aria-label="Main navigation">
-      <a href="#video">Video</a><a href="#experiments">Experiments</a><a href="#method">Method</a><a href="#results">Results</a><a href="#paper">Paper &amp; code <span aria-hidden="true">↗</span></a>
+      <a href="#video">Video</a><a href="#values">Value functions</a><a href="#method">Main idea</a><a href="#experiments">Experiments</a><a href="#paper">Paper &amp; code <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>
@@ -81,8 +81,43 @@
     </div>
   </section>
 
+  <section class="section shell" id="values" aria-labelledby="values-title">
+    <div class="section-heading"><div><p class="eyebrow">02 / Safety value functions</p><h2 id="values-title">Safety beyond<br>the current state.</h2></div><p>The instantaneous signal ℓ tells us whether a constraint is violated now. The safety value V<sup>π</sup> looks along the future trajectory under the robot’s policy, capturing both whether a violation will occur and the safety margin.</p></div>
+    <div class="method-intro">
+      <div><span class="eyebrow">The safety value function</span><p class="equation" aria-label="V pi of x t equals the supremum of ell of x k, over k greater than or equal to t">V<sup>π</sup>(x<sub>t</sub>) = sup<sub class="under">k ≥ t</sub> ℓ(x<sub>k</sub>)</p><p>For a fixed policy π, take the largest safety signal over its entire future trajectory. λ-Reachability learns an estimate of this value.</p></div>
+      <div class="signal-legend"><p><span class="signal-dot teal"></span><strong>ℓ(x): what is happening now</strong><span>Instantaneous balance or collision constraint.</span></p><p><span class="signal-dot rust"></span><strong>V<sup>π</sup>(x): what lies ahead</strong><span>Worst safety signal along the future trajectory.</span></p></div>
+    </div>
+    <div class="value-notes">
+      <article><p class="eyebrow">The sign</p><h3>Will the policy stay safe?</h3><p>For the ideal value, V<sup>π</sup>(x) ≤ 0 means the policy keeps the safety signal nonpositive for all future time. A positive value means a future violation.</p></article>
+      <article><p class="eyebrow">The margin</p><h3>How close is the boundary?</h3><p>The value locates the worst future condition relative to the zero safety threshold. A negative value closer to zero leaves less margin in the chosen safety signal.</p></article>
+      <article><p class="eyebrow">The warning</p><h3>See risk before it happens.</h3><p>The learned value can turn positive while the current signal is still negative, anticipating a fall or collision before the constraint is violated.</p></article>
+    </div>
+    <figure class="paper-figure"><a href="./assets/images/simulation-tasks.png" target="_blank" rel="noopener noreferrer" aria-label="Open the safety signal and value illustration at full size"><img src="./assets/images/simulation-tasks.png" alt="Rough-terrain and collision-avoidance sequences from paper Figure 2. The upper ball shows the predicted safety value V, and the lower ball shows the current safety signal ell. The value turns red before the current signal does." width="1600" height="316" loading="lazy"></a><figcaption><strong>Current condition and future risk, side by side.</strong> The upper ball represents the predicted safety value V; the lower ball represents ℓ. Green indicates a safety margin, yellow is near the boundary, and red indicates a violation. The value can warn before the robot falls or the obstacle hits. Figure 2 from the paper; select the image to enlarge.</figcaption></figure>
+  </section>
+
+  <section class="section shell" id="method" aria-labelledby="method-title">
+    <div class="section-heading"><div><p class="eyebrow">03 / The main idea</p><h2 id="method-title">Learn from the future.<br>One segment at a time.</h2></div><p>λ-Reachability learns the worst future safety signal from randomly sized trajectory segments. A geometric horizon connects short, bootstrapped updates to longer max-over-trajectory targets, so each update can bring future safety information back to the current state.</p></div>
+    <ol class="steps">
+      <li><span class="step-number">01</span><h3>Sample a horizon</h3><p>Draw n from a geometric distribution. λ controls how far the update looks into the future.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="n follows a geometric distribution with parameter one minus lambda"><mi>n</mi><mo>∼</mo><mi mathvariant="normal">Geom</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo></math></div></li>
+      <li><span class="step-number">02</span><h3>Observe the worst signal</h3><p>Take the maximum safety signal over the sampled trajectory segment.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Maximum of ell t through ell t plus n minus one"><mi mathvariant="normal">max</mi><mo>{</mo><msub><mi>ℓ</mi><mi>t</mi></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi>ℓ</mi><mrow><mi>t</mi><mo>+</mo><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>}</mo></math></div></li>
+      <li><span class="step-number">03</span><h3>Bootstrap probabilistically</h3><p>Include the terminal value with probability δⁿ; otherwise use a lower-bound terminal value.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="s follows a Bernoulli distribution with probability delta to the n"><mi>s</mi><mo>∼</mo><mi mathvariant="normal">Bernoulli</mi><mo>(</mo><msup><mi>δ</mi><mi>n</mi></msup><mo>)</mo></math></div></li>
+    </ol>
+    <div class="horizon-panel">
+      <div class="horizon-copy"><p class="eyebrow">Explore the horizon</p><h3>One parameter. <br>A different look ahead.</h3><p>Increase λ to shift probability toward longer trajectory segments.</p><label for="lambda-slider">Continuation probability <strong id="lambda-value">λ = 0.95</strong></label><input id="lambda-slider" type="range" min="0" max="99" value="95" step="1" aria-describedby="horizon-caveat"><div class="range-labels"><span>0 · one step</span><span>0.99 · longer horizons</span></div></div>
+      <div class="horizon-visual">
+        <div class="horizon-stat"><output id="horizon-value" for="lambda-slider">20</output><div>steps on average<span>E[n] = 1 / (1 − λ)</span></div></div>
+        <div class="distribution-heading"><span>Probability per five-step group</span><output id="distribution-scale" for="lambda-slider">Scale: 0–25%</output></div>
+        <div class="distribution" id="distribution" role="img" aria-label="Geometric horizon probabilities in equal five-step groups, from 1 to 100 steps"></div>
+        <div class="distribution-axis"><span>n = 1–5</span><span>Rollout horizon</span><span>96–100</span></div>
+        <div class="distribution-tail"><p>Beyond 100 steps<span>Combined probability · P(n ≥ 101) = λ¹⁰⁰</span></p><output id="tail-probability" for="lambda-slider" aria-label="Probability of a horizon beyond 100 steps">0.6%</output></div>
+        <p id="horizon-caveat">Bars show equal five-step groups; the remaining probability is reported separately above. This is the untruncated distribution. Training uses finite, truncated horizons.</p>
+      </div>
+    </div>
+    <div class="theory-note"><span class="theory-symbol" aria-hidden="true">λ → 1</span><p><strong>A connection to undiscounted reachability.</strong> The ideal operator is a contraction for δ &lt; 1, and its fixed point approaches the undiscounted safety value as λ → 1. These theoretical properties do not by themselves certify a learned neural model on hardware. <a href="https://arxiv.org/pdf/2606.16022#page=4" target="_blank" rel="noopener noreferrer">See §3 and Appendix A <span aria-hidden="true">↗</span></a></p></div>
+  </section>
+
   <section class="section shell" id="experiments" aria-labelledby="experiments-title">
-    <div class="section-heading"><div><p class="eyebrow">02 / Hardware experiments</p><h2 id="experiments-title">Similar disturbances.<br>Different outcomes.</h2></div><p>External pushes test balance; incoming balls test collision avoidance. Compare safe and unsafe outcomes on the physical G1. The gallery shows the supplied slow-motion footage; the full video above includes the safety-value traces.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">04 / Hardware demonstrations</p><h2 id="experiments-title">Similar disturbances.<br>Different outcomes.</h2></div><p>External pushes test balance; incoming balls test collision avoidance. Compare safe and unsafe outcomes on the physical G1. The full video above shows how the learned safety values evolve alongside these behaviors.</p></div>
     <div class="gallery-toolbar"><span>Explore the hardware trials</span><div class="segmented" role="group" aria-label="Filter experiments"><button type="button" class="is-active" data-filter="all" aria-pressed="true">All trials</button><button type="button" data-filter="push" aria-pressed="false">Balance</button><button type="button" data-filter="avoid" aria-pressed="false">Collision</button></div></div>
     <div class="experiment-grid">
       <article class="experiment-card" data-task="push">
@@ -109,62 +144,19 @@
     <p class="note">Outcome labels describe what happens in each recorded trial. A “safe outcome” does not imply that the learned monitor remains negative throughout the trial.</p>
   </section>
 
-  <section class="section shell" id="method" aria-labelledby="method-title">
-    <div class="section-heading"><div><p class="eyebrow">03 / Method</p><h2 id="method-title">A longer view of safety.</h2></div><p>One-step updates propagate future failures backward slowly. λ-Reachability learns from a geometric mixture of multi-step targets, bringing future safety information into each update.</p></div>
-    <div class="method-intro">
-      <div><span class="eyebrow">The quantity we learn</span><p class="equation" aria-label="V pi of x t equals the supremum of ell of x k, over k greater than or equal to t">V<sup>π</sup>(x<sub>t</sub>) = sup<sub class="under">k ≥ t</sub> ℓ(x<sub>k</sub>)</p><p>The worst future safety signal under policy π. Positive values indicate a future violation; the value’s magnitude describes the safety margin.</p></div>
-      <div class="signal-legend"><p><span class="signal-dot teal"></span><strong>ℓ(x): what is happening now</strong><span>Instantaneous balance or collision constraint.</span></p><p><span class="signal-dot rust"></span><strong>V<sup>π</sup>(x): what lies ahead</strong><span>Learned estimate of the worst future condition.</span></p></div>
-    </div>
-    <ol class="steps">
-      <li><span class="step-number">01</span><h3>Sample a horizon</h3><p>Draw n from a geometric distribution. λ controls how far the update looks into the future.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="n follows a geometric distribution with parameter one minus lambda"><mi>n</mi><mo>∼</mo><mi mathvariant="normal">Geom</mi><mo>(</mo><mn>1</mn><mo>−</mo><mi>λ</mi><mo>)</mo></math></div></li>
-      <li><span class="step-number">02</span><h3>Observe the worst signal</h3><p>Take the maximum safety signal over the sampled trajectory segment.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="Maximum of ell t through ell t plus n minus one"><mi mathvariant="normal">max</mi><mo>{</mo><msub><mi>ℓ</mi><mi>t</mi></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mi>ℓ</mi><mrow><mi>t</mi><mo>+</mo><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>}</mo></math></div></li>
-      <li><span class="step-number">03</span><h3>Bootstrap probabilistically</h3><p>Include the terminal value with probability δⁿ; otherwise use a lower-bound terminal value.</p><div class="step-equation"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block" aria-label="s follows a Bernoulli distribution with probability delta to the n"><mi>s</mi><mo>∼</mo><mi mathvariant="normal">Bernoulli</mi><mo>(</mo><msup><mi>δ</mi><mi>n</mi></msup><mo>)</mo></math></div></li>
-    </ol>
-    <div class="horizon-panel">
-      <div class="horizon-copy"><p class="eyebrow">Explore the horizon</p><h3>One parameter. <br>A different look ahead.</h3><p>Increase λ to shift probability toward longer trajectory segments.</p><label for="lambda-slider">Continuation probability <strong id="lambda-value">λ = 0.95</strong></label><input id="lambda-slider" type="range" min="0" max="99" value="95" step="1" aria-describedby="horizon-caveat"><div class="range-labels"><span>0 · one step</span><span>0.99 · longer horizons</span></div></div>
-      <div class="horizon-visual">
-        <div class="horizon-stat"><output id="horizon-value" for="lambda-slider">20</output><div>steps on average<span>E[n] = 1 / (1 − λ)</span></div></div>
-        <div class="distribution-heading"><span>Probability per five-step group</span><output id="distribution-scale" for="lambda-slider">Scale: 0–25%</output></div>
-        <div class="distribution" id="distribution" role="img" aria-label="Geometric horizon probabilities in equal five-step groups, from 1 to 100 steps"></div>
-        <div class="distribution-axis"><span>n = 1–5</span><span>Rollout horizon</span><span>96–100</span></div>
-        <div class="distribution-tail"><p>Beyond 100 steps<span>Combined probability · P(n ≥ 101) = λ¹⁰⁰</span></p><output id="tail-probability" for="lambda-slider" aria-label="Probability of a horizon beyond 100 steps">0.6%</output></div>
-        <p id="horizon-caveat">Bars show equal five-step groups; the remaining probability is reported separately above. This is the untruncated distribution. Training uses finite, truncated horizons.</p>
-      </div>
-    </div>
-    <div class="theory-note"><span class="theory-symbol" aria-hidden="true">λ → 1</span><p><strong>A connection to undiscounted reachability.</strong> The ideal operator is a contraction for δ &lt; 1, and its fixed point approaches the undiscounted safety value as λ → 1. These theoretical properties do not by themselves certify a learned neural model on hardware. <a href="https://arxiv.org/pdf/2606.16022#page=4" target="_blank" rel="noopener noreferrer">See §3 and Appendix A <span aria-hidden="true">↗</span></a></p></div>
-  </section>
-
-  <section class="section shell" id="results" aria-labelledby="results-title">
-    <div class="section-heading"><div><p class="eyebrow">04 / Results</p><h2 id="results-title">Earlier warnings.<br>More accurate safety values.</h2></div><p>The paper evaluates flat-ground balance, rough-terrain locomotion, and collision avoidance in simulation, with balance and collision experiments transferred to hardware.</p></div>
-    <div class="metrics">
-      <article><span class="eyebrow">Simulation · G1 Flat</span><strong>99.98<span>%</span></strong><h3>Temporal recall</h3><p>Compared with 22.05% for one-step discounted policy evaluation (DPE).</p></article>
-      <article><span class="eyebrow">Hardware · G1 Collision</span><strong>73.59<span>%</span></strong><h3>Temporal recall</h3><p>Compared with 13.52% for DPE on physical collision-avoidance trials.</p></article>
-      <article><span class="eyebrow">Hardware · G1 Flat</span><strong>0.19</strong><h3>Safety-value MSE</h3><p>Compared with 0.44 for DPE. Lower error means a more accurate safety margin.</p></article>
-    </div>
-    <p class="note">Reported means for λ = 0.99, from Tables 1–2. Temporal recall measures how much of the available pre-violation warning horizon is recovered; it is not a classification accuracy.</p>
-    <figure class="paper-figure"><img src="./assets/images/training-curves.png" alt="Paper Figure 3: safety-value MSE decreases and invariant-state classification accuracy increases faster with lambda 0.99 and 0.95 than with one-step DPE across G1 Flat, G1 Rough, and G1 Collision." width="1608" height="780" loading="lazy"><figcaption><strong>Learning across three simulation tasks.</strong> Safety-value error (top) and invariance classification accuracy (bottom). Figure 3 from the paper; the supervised method uses full-trajectory labels as a reference baseline.</figcaption></figure>
-    <div class="table-heading"><h3>From simulation to the real robot</h3><a href="https://arxiv.org/pdf/2606.16022#page=7" target="_blank" rel="noopener noreferrer">Full evaluation in the paper <span aria-hidden="true">↗</span></a></div>
-    <div class="table-scroll" role="region" aria-label="Temporal recall comparison" tabindex="0"><table><caption>Temporal recall (%) ↑ · mean ± standard deviation · λ = 0.99</caption><thead><tr><th scope="col">Evaluation</th><th scope="col">Task</th><th scope="col">DPE</th><th scope="col">λ-Reachability</th></tr></thead><tbody>
-      <tr><th scope="row">Simulation</th><td>G1 Flat</td><span>22.05</span> ± 12.30</td><td class="ours"><strong>99.98</strong> ± 0.21</td></tr>
-      <tr><th scope="row">Simulation</th><td>G1 Rough</td><span>21.94</span> ± 16.66</td><td class="ours"><strong>97.92</strong> ± 9.24</td></tr>
-      <tr><th scope="row">Simulation</th><td>G1 Collision</td><span>22.61</span> ± 14.50</td><td class="ours"><strong>99.40</strong> ± 4.79</td></tr>
-      <tr class="hardware-row"><th scope="row">Hardware</th><td>G1 Flat</td><span>62.07</span> ± 19.42</td><td class="ours"><strong>80.91</strong> ± 4.96</td></tr>
-      <tr><th scope="row">Hardware</th><td>G1 Collision</td><span>13.52</span> ± 6.97</td><td class="ours"><strong>73.59</strong> ± 9.20</td></tr>
-    </tbody></table></div>
-    <details class="limitations"><summary>Where the method still has limits <span aria-hidden="true">+</span></summary><div><p>Finite rollouts require truncated horizon sampling, which can bias the learning target. Longer horizons can also be less robust to noisy real observations: on hardware balance trials, shorter λ settings perform better on some metrics. The work learns safety values for a fixed policy; it does not synthesize a new safety controller.</p><a href="https://arxiv.org/pdf/2606.16022#page=8" target="_blank" rel="noopener noreferrer">Read the limitations and discussion in §5–6 <span aria-hidden="true">↗</span></a></div></details>
-  </section>
-
   <section class="section shell paper-section" id="paper" aria-labelledby="paper-title">
     <div class="paper-banner"><div><p class="eyebrow">05 / Continue exploring</p><h2 id="paper-title">Paper, code &amp; citation.</h2><p>Read the formulation and proofs, or explore the training and deployment workflows.</p></div><div class="actions"><a class="button primary" href="https://arxiv.org/abs/2606.16022" target="_blank" rel="noopener noreferrer">Paper on arXiv <span aria-hidden="true">↗</span></a><a class="button secondary" href="https://github.com/intelligent-control-lab/lambda_reach" target="_blank" rel="noopener noreferrer">GitHub code <span aria-hidden="true">↗</span></a></div></div>
     <div class="citation-heading"><h3>BibTeX</h3><button id="copy-citation" type="button">Copy citation <span aria-hidden="true">⧉</span></button></div>
-    <pre id="citation"><code>@misc{chen2026lambdareachability,
-  title={$\lambda$-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety},
-  author={Rui Chen and Shangtao Li and Yifan Sun and Changliu Liu},
-  year={2026},
-  eprint={2606.16022},
-  archivePrefix={arXiv},
-  primaryClass={cs.RO},
-  url={https://arxiv.org/abs/2606.16022}
+    <pre id="citation"><code>@article{chen2026lambdareachability,
+  index = {U},
+  title = {$\lambda$-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety},
+  author = {Chen, Rui and Li, Shangtao and Sun, Yifan and Liu, Changliu},
+  year = {2026},
+  journal = {arXiv:2606.16022},
+  url = {https://arxiv.org/abs/2606.16022},
+  website = {https://intelligent-control-lab.github.io/lambda_reach/},
+  youtube = {https://www.youtube.com/watch?v=sW9JjJ73NJ4},
+  code = {https://github.com/intelligent-control-lab/lambda_reach}
 }</code></pre>
     <p class="note" id="copy-status" role="status" aria-live="polite">arXiv citation; accepted to CoRL 2026.</p>
   </section>

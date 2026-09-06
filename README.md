@@ -15,7 +15,7 @@ Open **http://127.0.0.1:8000**. Stop the server with Ctrl+C. If that port is in 
 
 ## Files
 
-- `docs/index.html`: editable page content, paper/code links, author affiliations, results, BibTeX.
+- `docs/index.html`: editable page content, safety value explanation, method, project links, authors, and BibTeX.
 - `index.html`: generated entry point for the public project URL.
 - `scripts/sync_pages.py`: synchronizes the generated entry with `docs/index.html`.
 - `docs/assets/css/site.css`: responsive visual design.
@@ -83,4 +83,8 @@ The research repository's license and notice files are preserved on this branch.
 - Visual reference: https://intelligent-control-lab.github.io/humanoid_stoppability/ and its local source.
 - Figures: extracted from the paper; institutional logos reused from the reference project.
 
-The page keeps the arXiv BibTeX entry because final proceedings metadata was not provided. The CoRL acceptance is displayed separately.
+The page uses the project owner's arXiv `@article` BibTeX record, including the
+`index` field and separate `website`, `youtube`, and `code` links. The CoRL
+acceptance is displayed separately. The page centers on safety value functions,
+the geometric-horizon learning idea, and hardware demonstrations; quantitative
+evaluation remains in the paper and authored research video.
