@@ -16,7 +16,7 @@ The safety value definition and its sign/margin interpretation follow §2.1, and
 2. Research overview: full authored video with four chapter buttons and visual descriptions.
 3. Safety value functions: the worst-over-future definition, sign and margin interpretation, and Figure 2 showing current signals alongside predicted values.
 4. Main idea: three-step learning explanation and an interactive geometric-horizon illustration.
-5. Hardware gallery: four full-width outcome cards pairing eight selectable videos with their recorded safety value plots, balance/collision filters, a curve legend, and full-size plot links. Fall and collision warning examples lead each task.
+5. Hardware gallery: four full-width outcome cards with eight selectable synchronized camera/curve replays, balance/collision filters, a curve legend, and full-size plot links. Each replay has one timeline for playing, pausing, seeking, speed changes, and fullscreen. Fall and collision warning examples lead each task.
 6. Resources: manuscript, repository, the owner's copyable CoRL proceedings BibTeX with website/YouTube/code links (without index or abstract), and reference-site attribution.
 
 The reference's cream background, dark blue-green text, rust accent, serif headings, and rounded media panels are retained. The implementation uses plain HTML/CSS/JavaScript with responsive layouts and keyboard-accessible controls.
@@ -25,15 +25,29 @@ The reference's cream background, dark blue-green text, rust accent, serif headi
 
 Reviewed the compiled 179.35-second video, all ten raw camera clips, and all eight plot clips using metadata and contact sheets. Some camera/plot pairs have different durations, so independent raw plots were not assumed to be synchronized. The authored research video supplies the existing synchronized comparisons. Raw gallery clips retain supplied slow-motion timing.
 
-The redesigned hardware gallery displays the complete recorded value curve beside
-each video. Plot frames are extracted 0.1 seconds before the end of each source
-curve clip; all eight exported frames were visually reviewed for complete traces,
-axes, legends, and warning/violation shading. `curve-manifest.json` records the
-sources and timestamps. These are static full-trial plots, labeled accordingly,
-and are not presented as synchronized playback traces. Source curves and all
-original footage remain unchanged. The safe collision examples explicitly show
-positive predictions despite no collision, preserving the distinction between a
-recorded safe outcome and the monitor's predictions.
+The hardware gallery now animates the supplied curve recordings with the camera
+footage. Each replay encodes both views in one video, so a browser cannot advance
+one panel independently during buffering, pausing, seeking, speed changes, or
+fullscreen playback. Wide (1920×576) and stacked (960×1152) exports preserve the
+same timeline. Camera panels use only the existing privacy-edited derivatives.
+
+Curve source time = prepared camera time + offset. Balance offsets are 0 seconds
+for trial 1 and +0.15 seconds for trial 2, accounting for the camera's initial
+trim. Collision offsets are visually calibrated estimates: −0.10 seconds for
+safe trial 1, +0.633333 seconds for unsafe trial 1, and +2 seconds for both trial 2
+recordings. The first collision pairs were aligned using camera-frame matches
+and curve-progress matches to the authored overview; trial 2 was checked against
+ball approach and closest passage/contact. These are editing alignments, not
+new measurements of warning horizons. `monitoring-manifest.json` records the
+source paths, offsets, evidence, and endpoint handling. No playback time
+stretching is applied; the first or last curve frame is held outside its
+available recording if needed.
+
+The complete static curves remain available through the full-curve links.
+`curve-manifest.json` records their source files and extraction timestamps.
+Source curves and all original footage remain unchanged. Safe collision examples
+retain positive predictions despite no collision, preserving the distinction
+between a recorded safe outcome and the monitor's predictions.
 
 | Website output | Source | Privacy treatment |
 | --- | --- | --- |
@@ -57,6 +71,7 @@ Original and exported contact sheets were visually reviewed. Mosaic regions, the
 - All eight gallery variants loaded, decoded, and advanced during playback.
 - Balance/collision filtering, trial switching, video chapters, λ slider, and citation clipboard copy exercised.
 - Redesigned hardware gallery checked at 320, 390, 768, 1024, and 1440 px. All eight video/plot pairs, video playback, full-size plot links, and proceedings citation clipboard copy passed without page or asset errors.
+- All 16 animated replay exports (eight trials in both layouts) decoded and showed changing camera and curve panels during browser playback. Shared play/pause, seeking, speed selection, fullscreen, and trial reset passed. Controls remain below the plotted values on mobile. Responsive layout changes preserve playback position, speed, and playing/paused state.
 - Slider checked at λ = 0, 0.5, 0.95, and 0.99 (mean horizons 1, 2, 20, 100).
 - No JavaScript exceptions or HTTP asset errors during the browser interaction check.
 - Preview uses a byte-range-capable server because Python's basic `http.server` can clamp a chapter seek to the start before the media is buffered.

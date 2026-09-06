@@ -1,0 +1,122 @@
+[
+  {
+    "trial": "push-safe-1",
+    "camera_source": "docs/assets/videos/push-safe-1.mp4",
+    "curve_source": "web-material/web-material/push-safe 1/curve.mov",
+    "curve_offset_seconds": 0,
+    "alignment_evidence": "Matching original camera/curve timelines; no camera trim.",
+    "outputs": [
+      "docs/assets/monitoring/push-safe-1-wide.mp4",
+      "docs/assets/monitoring/push-safe-1-stacked.mp4"
+    ],
+    "duration": 19.3,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "push-unsafe-1",
+    "camera_source": "docs/assets/videos/push-unsafe-1.mp4",
+    "curve_source": "web-material/web-material/push-unsafe 1/curve.mov",
+    "curve_offset_seconds": 0,
+    "alignment_evidence": "Matching original camera/curve timelines; no camera trim.",
+    "outputs": [
+      "docs/assets/monitoring/push-unsafe-1-wide.mp4",
+      "docs/assets/monitoring/push-unsafe-1-stacked.mp4"
+    ],
+    "duration": 17.434,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "push-safe-2",
+    "camera_source": "docs/assets/videos/push-safe-2.mp4",
+    "curve_source": "web-material/web-material/push-safe 2/curve.mov",
+    "curve_offset_seconds": 0.15,
+    "alignment_evidence": "Matching original timelines; prepared camera removes the first 0.15 s.",
+    "outputs": [
+      "docs/assets/monitoring/push-safe-2-wide.mp4",
+      "docs/assets/monitoring/push-safe-2-stacked.mp4"
+    ],
+    "duration": 14.1,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "push-unsafe-2",
+    "camera_source": "docs/assets/videos/push-unsafe-2.mp4",
+    "curve_source": "web-material/web-material/push-unsafe 2/curve.mov",
+    "curve_offset_seconds": 0.15,
+    "alignment_evidence": "Matching original timelines; prepared camera removes the first 0.15 s.",
+    "outputs": [
+      "docs/assets/monitoring/push-unsafe-2-wide.mp4",
+      "docs/assets/monitoring/push-unsafe-2-stacked.mp4"
+    ],
+    "duration": 14.1,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "avoid-safe-1",
+    "camera_source": "docs/assets/videos/avoid-safe-1.mp4",
+    "curve_source": "web-material/web-material/avoid-safe 1/curve.mp4",
+    "curve_offset_seconds": -0.1,
+    "alignment_evidence": "Estimated from camera-frame and curve-progress matches to overview 31\u201337 s.",
+    "outputs": [
+      "docs/assets/monitoring/avoid-safe-1-wide.mp4",
+      "docs/assets/monitoring/avoid-safe-1-stacked.mp4"
+    ],
+    "duration": 10.3,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "avoid-unsafe-1",
+    "camera_source": "docs/assets/videos/avoid-unsafe-1.mp4",
+    "curve_source": "web-material/web-material/avoid-unsafe 1/curve.mp4",
+    "curve_offset_seconds": 0.633333,
+    "alignment_evidence": "Estimated from camera-frame and curve-progress matches to overview 42\u201347 s.",
+    "outputs": [
+      "docs/assets/monitoring/avoid-unsafe-1-wide.mp4",
+      "docs/assets/monitoring/avoid-unsafe-1-stacked.mp4"
+    ],
+    "duration": 10.0,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "avoid-safe-2",
+    "camera_source": "docs/assets/videos/avoid-safe-2.mp4",
+    "curve_source": "web-material/web-material/avoid-safe 2/curve.mp4",
+    "curve_offset_seconds": 2,
+    "alignment_evidence": "Estimated from ball approach and closest passage: camera approximately 5.5 s, curve approximately 7.5 s.",
+    "outputs": [
+      "docs/assets/monitoring/avoid-safe-2-wide.mp4",
+      "docs/assets/monitoring/avoid-safe-2-stacked.mp4"
+    ],
+    "duration": 11.3,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  },
+  {
+    "trial": "avoid-unsafe-2",
+    "camera_source": "docs/assets/videos/avoid-unsafe-2.mp4",
+    "curve_source": "web-material/web-material/avoid-unsafe 2/curve.mp4",
+    "curve_offset_seconds": 2,
+    "alignment_evidence": "Estimated from ball approach and contact: camera approximately 3.6\u20134.0 s, curve approximately 5.6\u20136.0 s.",
+    "outputs": [
+      "docs/assets/monitoring/avoid-unsafe-2-wide.mp4",
+      "docs/assets/monitoring/avoid-unsafe-2-stacked.mp4"
+    ],
+    "duration": 8.7,
+    "endpoint_handling": "Hold first/last curve frame only outside available curve recording.",
+    "playback": "Camera and curve share one encoded video timeline in both responsive layouts.",
+    "privacy": "Camera uses the existing privacy-edited derivative; curve recording contains only the plot."
+  }
+]

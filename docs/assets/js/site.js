@@ -9,6 +9,89 @@ videos.forEach(video => video.addEventListener('play', () => {
   videos.forEach(other => { if (other !== video) other.pause(); });
 }));
 
+// Each replay contains camera and curve in the same encoded frames, sharing all controls.
+const monitoringLayout = matchMedia('(max-width: 780px)');
+const pendingRestores = new WeakMap();
+function setMonitoringSource(video, trial, preservePlayback = false) {
+  const layout = monitoringLayout.matches ? 'stacked' : 'wide';
+  if (video.dataset.trial === trial && video.dataset.layout === layout) return;
+  const time = preservePlayback ? video.currentTime : 0;
+  const resume = preservePlayback && !video.paused;
+  const rate = video.playbackRate;
+  video.pause();
+  const previous = pendingRestores.get(video);
+  if (previous) video.removeEventListener('loadedmetadata', previous);
+  video.dataset.trial = trial;
+  video.dataset.layout = layout;
+  video.poster = new URL(`monitoring/${trial}-${layout}.jpg`, assetsRoot).href;
+  video.querySelector('source').src = new URL(`monitoring/${trial}-${layout}.mp4`, assetsRoot).href;
+  const restore = () => {
+    pendingRestores.delete(video);
+    video.playbackRate = rate;
+    if (time > 0) video.currentTime = Math.min(time, video.duration);
+    if (resume) video.play().catch(() => {});
+  };
+  pendingRestores.set(video, restore);
+  video.addEventListener('loadedmetadata', restore, { once: true });
+  video.load();
+}
+document.querySelectorAll('.monitor-video').forEach(video => {
+  setMonitoringSource(video, video.dataset.trial);
+  const player = video.closest('.monitoring-player');
+  const controls = player.querySelector('.replay-controls');
+  const toggle = player.querySelector('.replay-toggle');
+  const seek = player.querySelector('.replay-seek');
+  const time = player.querySelector('.replay-time');
+  const speed = player.querySelector('.replay-speed');
+  const fullscreen = player.querySelector('.replay-fullscreen');
+  const status = player.querySelector('.replay-status');
+  const formatTime = seconds => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
+  const updateControls = () => {
+    const duration = Number.isFinite(video.duration) ? video.duration : 0;
+    seek.max = duration || 1;
+    seek.disabled = !duration;
+    seek.value = video.currentTime;
+    seek.setAttribute('aria-valuetext', `${formatTime(video.currentTime)} of ${formatTime(duration)}`);
+    time.textContent = `${formatTime(video.currentTime)} / ${formatTime(duration)}`;
+    toggle.textContent = video.paused ? 'Play' : 'Pause';
+    toggle.setAttribute('aria-label', video.paused ? 'Play monitoring replay' : 'Pause monitoring replay');
+    speed.value = String(video.playbackRate);
+  };
+  toggle.addEventListener('click', () => {
+    if (!video.paused) video.pause();
+    else video.play().catch(() => {
+      status.textContent = 'Unable to play this replay. Please try again.';
+      status.hidden = false;
+    });
+  });
+  seek.addEventListener('input', () => { video.currentTime = Number(seek.value); });
+  speed.addEventListener('change', () => { video.playbackRate = Number(speed.value); });
+  fullscreen.hidden = !player.requestFullscreen;
+  fullscreen.addEventListener('click', () => {
+    const action = document.fullscreenElement === player ? document.exitFullscreen() : player.requestFullscreen();
+    action.catch(() => {});
+  });
+  document.addEventListener('fullscreenchange', () => {
+    fullscreen.textContent = document.fullscreenElement === player ? 'Exit fullscreen' : 'Fullscreen';
+  });
+  ['loadedmetadata', 'durationchange', 'timeupdate', 'play', 'pause', 'ended', 'ratechange', 'emptied'].forEach(event => {
+    video.addEventListener(event, updateControls);
+  });
+  video.addEventListener('playing', () => { status.hidden = true; });
+  video.addEventListener('error', () => {
+    status.textContent = 'Unable to load this replay. Please refresh to try again.';
+    status.hidden = false;
+  });
+  video.controls = false;
+  controls.hidden = false;
+  updateControls();
+});
+monitoringLayout.addEventListener('change', () => {
+  document.querySelectorAll('.monitor-video').forEach(video => {
+    setMonitoringSource(video, video.dataset.trial, true);
+  });
+});
+
 const overview = document.querySelector('#overview-player');
 document.querySelectorAll('[data-seek]').forEach(button => {
   button.addEventListener('click', () => {
@@ -44,14 +127,9 @@ document.querySelectorAll('[data-clip]').forEach(button => {
   button.addEventListener('click', () => {
     if (button.getAttribute('aria-pressed') === 'true') return;
     const card = button.closest('.experiment-card');
-    const video = card.querySelector('video');
-    video.pause();
-    video.poster = new URL(`posters/${button.dataset.clip}.jpg`, assetsRoot).href;
-    video.querySelector('source').src = new URL(`videos/${button.dataset.clip}.mp4`, assetsRoot).href;
-    video.load();
+    const video = card.querySelector('.monitor-video');
+    setMonitoringSource(video, button.dataset.clip);
     const curveUrl = new URL(`curves/${button.dataset.clip}.png`, assetsRoot).href;
-    card.querySelector('.trial-curve img').src = curveUrl;
-    card.querySelector('.curve-link').href = curveUrl;
     card.querySelector('.curve-open').href = curveUrl;
     card.querySelectorAll('[data-clip]').forEach(item => {
       const active = item === button;

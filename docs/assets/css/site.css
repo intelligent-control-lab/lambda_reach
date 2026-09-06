@@ -668,7 +668,7 @@ h1 {
 
 .trial-media {
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  grid-template-columns:minmax(0,1fr);
   gap:20px;
   padding:0 24px 24px
 }
@@ -697,10 +697,14 @@ h1 {
   font-weight:400
 }
 
-.curve-link {
-  display:block;
-  position:relative;
+.monitor-video {
+  aspect-ratio:10/3;
   background:white
+}
+
+.monitoring-label {
+  color:var(--muted);
+  font-weight:400
 }
 
 .trial-media .curve-open {
@@ -709,28 +713,77 @@ h1 {
   text-underline-offset:3px
 }
 
-.curve-link img {
-  width:100%;
-  height:auto;
-  aspect-ratio:16/9
-}
-
-.curve-enlarge {
-  position:absolute;
-  right:8px;
-  bottom:6px;
-  padding:3px 7px;
-  border:1px solid var(--line);
-  border-radius:5px;
+.replay-controls {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 16px;
+  border-top:1px solid var(--line);
   background:var(--paper);
-  color:var(--ink);
-  font-size:.62rem;
-  opacity:0;
-  transition:opacity .15s
+  font-size:.75rem
 }
 
-.curve-link:hover .curve-enlarge,.curve-link:focus-visible .curve-enlarge {
-  opacity:1
+.replay-controls[hidden],.replay-controls button[hidden] {
+  display:none
+}
+
+.replay-controls button,.replay-controls select {
+  padding:7px 11px;
+  border:1px solid var(--line);
+  border-radius:6px;
+  color:var(--ink);
+  background:var(--paper);
+  font:inherit
+}
+
+.replay-toggle {
+  min-width:64px
+}
+
+.replay-seek {
+  flex:1;
+  min-width:50px;
+  accent-color:var(--teal);
+  cursor:pointer
+}
+
+.replay-time {
+  min-width:84px;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap
+}
+
+.replay-speed-label {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap
+}
+
+.replay-controls select:focus-visible {
+  outline:3px solid var(--teal);
+  outline-offset:3px
+}
+
+.replay-status {
+  padding:12px 16px;
+  font-size:.8rem
+}
+
+.monitoring-player:fullscreen {
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  border:0;
+  border-radius:0;
+  background:var(--paper)
+}
+
+.monitoring-player:fullscreen .monitor-video {
+  width:100%;
+  height:100%;
+  min-height:0;
+  object-fit:contain;
+  background:#121b1f
 }
 
 .note {
@@ -1392,6 +1445,41 @@ pre {
     grid-template-columns:1fr;
     gap:16px;
     padding:0 18px 18px
+  }
+
+  .monitor-video {
+    aspect-ratio:5/6
+  }
+
+  .monitoring-label {
+    display:block;
+    margin-top:2px;
+    font-size:.68rem
+  }
+
+  .replay-controls {
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr) auto;
+    gap:10px;
+    padding:12px
+  }
+
+  .replay-toggle {
+    min-width:55px
+  }
+
+  .replay-time {
+    min-width:0;
+    font-size:.68rem
+  }
+
+  .replay-speed-label {
+    grid-column:1/3
+  }
+
+  .replay-fullscreen {
+    grid-column:3;
+    font-size:.68rem
   }
 
   .curve-guide {
