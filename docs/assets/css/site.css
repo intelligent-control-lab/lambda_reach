@@ -534,8 +534,8 @@ h1 {
 
 .experiment-grid {
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:26px
+  grid-template-columns:1fr;
+  gap:30px
 }
 
 .experiment-card {
@@ -582,25 +582,31 @@ h1 {
 }
 
 .experiment-body {
-  padding:21px 23px
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  padding:0 24px 22px
 }
 
 .experiment-body h3 {
   font-family:var(--serif);
   font-weight:400;
-  font-size:1.45rem;
+  font-size:1.8rem;
   letter-spacing:-.025em
 }
 
 .experiment-body p {
   font-size:.82rem;
-  margin-top:6px
+  margin-top:6px;
+  max-width:76ch
 }
 
 .trial-picker {
-  margin-top:17px;
+  margin-top:5px;
   display:flex;
-  gap:8px
+  gap:8px;
+  flex-shrink:0
 }
 
 .trial-picker button {
@@ -615,6 +621,116 @@ h1 {
   border-color:var(--teal);
   color:var(--teal);
   background:#edf2ed
+}
+
+.curve-guide {
+  padding:24px 28px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--paper)
+}
+
+.curve-guide p {
+  font-size:.86rem
+}
+
+.curve-guide strong {
+  color:var(--ink)
+}
+
+.curve-key {
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 28px;
+  list-style:none;
+  margin:16px 0 0;
+  padding:0;
+  color:var(--muted);
+  font-size:.76rem
+}
+
+.curve-key li {
+  display:flex;
+  align-items:center;
+  gap:8px
+}
+
+.key-line {
+  width:24px;
+  height:3px;
+  border-radius:3px;
+  flex-shrink:0
+}
+
+.key-value { background:#267da5 }
+.key-signal { background:#c83042 }
+.key-distance { background:#319783 }
+
+.trial-media {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:20px;
+  padding:0 24px 24px
+}
+
+.trial-media figure {
+  min-width:0;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:12px
+}
+
+.trial-media figcaption {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:12px 15px;
+  border-bottom:1px solid var(--line);
+  font-size:.78rem;
+  font-weight:600
+}
+
+.trial-media .small-label {
+  font-size:.65rem;
+  color:var(--muted);
+  font-weight:400
+}
+
+.curve-link {
+  display:block;
+  position:relative;
+  background:white
+}
+
+.trial-media .curve-open {
+  color:var(--teal);
+  text-decoration:underline;
+  text-underline-offset:3px
+}
+
+.curve-link img {
+  width:100%;
+  height:auto;
+  aspect-ratio:16/9
+}
+
+.curve-enlarge {
+  position:absolute;
+  right:8px;
+  bottom:6px;
+  padding:3px 7px;
+  border:1px solid var(--line);
+  border-radius:5px;
+  background:var(--paper);
+  color:var(--ink);
+  font-size:.62rem;
+  opacity:0;
+  transition:opacity .15s
+}
+
+.curve-link:hover .curve-enlarge,.curve-link:focus-visible .curve-enlarge {
+  opacity:1
 }
 
 .note {
@@ -1249,17 +1365,19 @@ pre {
   }
 
   .experiment-top {
-    align-items:flex-start;
-    flex-direction:column;
+    align-items:center;
+    flex-direction:row;
     gap:6px
   }
 
   .experiment-body {
-    padding:18px
+    flex-direction:column;
+    gap:14px;
+    padding:0 18px 18px
   }
 
   .experiment-body h3 {
-    font-size:1.3rem
+    font-size:1.55rem
   }
 
   .experiment-body p {
@@ -1268,6 +1386,16 @@ pre {
 
   .trial-picker {
     flex-wrap:wrap
+  }
+
+  .trial-media {
+    grid-template-columns:1fr;
+    gap:16px;
+    padding:0 18px 18px
+  }
+
+  .curve-guide {
+    padding:20px
   }
 
   .method-intro {
@@ -1461,7 +1589,7 @@ pre {
   }
 
   .experiment-body {
-    padding:19px
+    padding:0 16px 18px
   }
 
   .experiment-body h3 {

@@ -117,48 +117,63 @@
   </section>
 
   <section class="section shell" id="experiments" aria-labelledby="experiments-title">
-    <div class="section-heading"><div><p class="eyebrow">04 / Hardware demonstrations</p><h2 id="experiments-title">Similar disturbances.<br>Different outcomes.</h2></div><p>External pushes test balance; incoming balls test collision avoidance. Compare safe and unsafe outcomes on the physical G1. The full video above shows how the learned safety values evolve alongside these behaviors.</p></div>
-    <div class="gallery-toolbar"><span>Explore the hardware trials</span><div class="segmented" role="group" aria-label="Filter experiments"><button type="button" class="is-active" data-filter="all" aria-pressed="true">All trials</button><button type="button" data-filter="push" aria-pressed="false">Balance</button><button type="button" data-filter="avoid" aria-pressed="false">Collision</button></div></div>
+    <div class="section-heading"><div><p class="eyebrow">04 / Hardware demonstrations</p><h2 id="experiments-title">Watch the robot.<br>Read its safety value.</h2></div><p>Each hardware video is paired with its full recorded value curve. Compare what the robot does with what the learned safety value predicts, from balance recovery to an impending fall or collision.</p></div>
+    <div class="curve-guide">
+      <p><strong>Look for the warning before the violation.</strong> A positive learned value predicts future risk. When the blue curve crosses zero before the red curve, it anticipates a violation while the current constraint is still satisfied.</p>
+      <ul class="curve-key" aria-label="Value curve legend"><li><span class="key-line key-value" aria-hidden="true"></span><span>Learned safety value V<sup>π</sup></span></li><li><span class="key-line key-signal" aria-hidden="true"></span>Current safety signal ℓ</li><li><span class="key-line key-distance" aria-hidden="true"></span>Obstacle distance · collision trials</li></ul>
+    </div>
+    <div class="gallery-toolbar"><span>Eight trials · video + recorded value curve</span><div class="segmented" role="group" aria-label="Filter experiments"><button type="button" class="is-active" data-filter="all" aria-pressed="true">All trials</button><button type="button" data-filter="push" aria-pressed="false">Balance</button><button type="button" data-filter="avoid" aria-pressed="false">Collision</button></div></div>
     <div class="experiment-grid">
       <article class="experiment-card" data-task="push">
-        <div class="experiment-top"><span class="eyebrow">Balance / G1 Flat</span><span class="outcome safe">Safe outcome</span></div>
-        <video controls muted playsinline preload="metadata" poster="./assets/posters/push-safe-2.jpg" aria-label="Slow-motion push trial with a safe balance outcome"><source src="./assets/videos/push-safe-2.mp4" type="video/mp4"></video>
-        <div class="experiment-body"><h3>Recovering from a push</h3><p>The robot remains upright after the perturbation.</p><div class="trial-picker" role="group" aria-label="Recovering from a push trial selection"><button type="button" data-clip="push-safe-2" aria-pressed="true" class="is-active">Front trial</button><button type="button" data-clip="push-safe-1" aria-pressed="false">Overhead trial</button></div></div>
+        <div class="experiment-top"><span class="eyebrow">Balance / G1 Flat</span><span class="outcome unsafe">Unsafe outcome</span></div>
+        <div class="experiment-body"><div><h3>A warning before the fall</h3><p>The learned value crosses zero before the instantaneous balance signal. Watch how the warning relates to the loss of balance.</p></div><div class="trial-picker" role="group" aria-label="A warning before the fall trial selection"><button type="button" data-clip="push-unsafe-2" aria-pressed="true" class="is-active">Front trial</button><button type="button" data-clip="push-unsafe-1" aria-pressed="false">Overhead trial</button></div></div>
+        <div class="trial-media">
+          <figure class="trial-video"><figcaption><span>On the real robot</span><span class="small-label">Slow motion</span></figcaption><video controls muted playsinline preload="metadata" poster="./assets/posters/push-unsafe-2.jpg" aria-label="A warning before the fall: slow-motion hardware trial"><source src="./assets/videos/push-unsafe-2.mp4" type="video/mp4"></video></figure>
+          <figure class="trial-curve"><figcaption><span>Recorded value curves</span><a class="curve-open small-label" href="./assets/curves/push-unsafe-2.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the full recorded trial curve">Full trial ↗</a></figcaption><a class="curve-link" href="./assets/curves/push-unsafe-2.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the recorded value curve for a warning before the fall"><img src="./assets/curves/push-unsafe-2.png" alt="The blue safety value becomes positive before the red balance signal, with warning and violation intervals shaded." width="1920" height="1080" loading="lazy"><span class="curve-enlarge">Enlarge curve <span aria-hidden="true">↗</span></span></a></figure>
+        </div>
       </article>
       <article class="experiment-card" data-task="push">
-        <div class="experiment-top"><span class="eyebrow">Balance / G1 Flat</span><span class="outcome unsafe">Unsafe outcome</span></div>
-        <video controls muted playsinline preload="metadata" poster="./assets/posters/push-unsafe-2.jpg" aria-label="Slow-motion push trial with a loss of balance"><source src="./assets/videos/push-unsafe-2.mp4" type="video/mp4"></video>
-        <div class="experiment-body"><h3>Crossing the balance boundary</h3><p>A push leads to a fall onto the protective mat.</p><div class="trial-picker" role="group" aria-label="Loss of balance trial selection"><button type="button" data-clip="push-unsafe-2" aria-pressed="true" class="is-active">Front trial</button><button type="button" data-clip="push-unsafe-1" aria-pressed="false">Overhead trial</button></div></div>
-      </article>
-      <article class="experiment-card" data-task="avoid">
-        <div class="experiment-top"><span class="eyebrow">Avoidance / G1 Collision</span><span class="outcome safe">Safe outcome</span></div>
-        <video controls muted playsinline preload="metadata" poster="./assets/posters/avoid-safe-1.jpg" aria-label="Slow-motion ball-avoidance trial with no collision"><source src="./assets/videos/avoid-safe-1.mp4" type="video/mp4"></video>
-        <div class="experiment-body"><h3>Passing without contact</h3><p>The incoming ball passes without hitting the robot.</p><div class="trial-picker" role="group" aria-label="Safe avoidance trial selection"><button type="button" data-clip="avoid-safe-1" aria-pressed="true" class="is-active">Trial 1</button><button type="button" data-clip="avoid-safe-2" aria-pressed="false">Trial 2</button></div></div>
+        <div class="experiment-top"><span class="eyebrow">Balance / G1 Flat</span><span class="outcome safe">Safe outcome</span></div>
+        <div class="experiment-body"><div><h3>Recovery with a safety margin</h3><p>Both recorded traces stay below zero as the robot recovers from the push.</p></div><div class="trial-picker" role="group" aria-label="Recovery with a safety margin trial selection"><button type="button" data-clip="push-safe-2" aria-pressed="true" class="is-active">Front trial</button><button type="button" data-clip="push-safe-1" aria-pressed="false">Overhead trial</button></div></div>
+        <div class="trial-media">
+          <figure class="trial-video"><figcaption><span>On the real robot</span><span class="small-label">Slow motion</span></figcaption><video controls muted playsinline preload="metadata" poster="./assets/posters/push-safe-2.jpg" aria-label="Recovery with a safety margin: slow-motion hardware trial"><source src="./assets/videos/push-safe-2.mp4" type="video/mp4"></video></figure>
+          <figure class="trial-curve"><figcaption><span>Recorded value curves</span><a class="curve-open small-label" href="./assets/curves/push-safe-2.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the full recorded trial curve">Full trial ↗</a></figcaption><a class="curve-link" href="./assets/curves/push-safe-2.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the recorded value curve for recovery with a safety margin"><img src="./assets/curves/push-safe-2.png" alt="The blue safety value and red balance signal remain below the zero safety threshold." width="1920" height="1080" loading="lazy"><span class="curve-enlarge">Enlarge curve <span aria-hidden="true">↗</span></span></a></figure>
+        </div>
       </article>
       <article class="experiment-card" data-task="avoid">
         <div class="experiment-top"><span class="eyebrow">Avoidance / G1 Collision</span><span class="outcome unsafe">Unsafe outcome</span></div>
-        <video controls muted playsinline preload="metadata" poster="./assets/posters/avoid-unsafe-1.jpg" aria-label="Slow-motion ball-avoidance trial in which contact occurs"><source src="./assets/videos/avoid-unsafe-1.mp4" type="video/mp4"></video>
-        <div class="experiment-body"><h3>An impending collision</h3><p>The ball makes contact, violating the safety constraint.</p><div class="trial-picker" role="group" aria-label="Unsafe avoidance trial selection"><button type="button" data-clip="avoid-unsafe-1" aria-pressed="true" class="is-active">Trial 1</button><button type="button" data-clip="avoid-unsafe-2" aria-pressed="false">Trial 2</button></div></div>
+        <div class="experiment-body"><div><h3>A warning before contact</h3><p>The learned value becomes positive while the ball approaches. The instantaneous signal crosses zero when contact occurs.</p></div><div class="trial-picker" role="group" aria-label="A warning before contact trial selection"><button type="button" data-clip="avoid-unsafe-1" aria-pressed="true" class="is-active">Trial 1</button><button type="button" data-clip="avoid-unsafe-2" aria-pressed="false">Trial 2</button></div></div>
+        <div class="trial-media">
+          <figure class="trial-video"><figcaption><span>On the real robot</span><span class="small-label">Slow motion</span></figcaption><video controls muted playsinline preload="metadata" poster="./assets/posters/avoid-unsafe-1.jpg" aria-label="A warning before contact: slow-motion hardware trial"><source src="./assets/videos/avoid-unsafe-1.mp4" type="video/mp4"></video></figure>
+          <figure class="trial-curve"><figcaption><span>Recorded value curves</span><a class="curve-open small-label" href="./assets/curves/avoid-unsafe-1.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the full recorded trial curve">Full trial ↗</a></figcaption><a class="curve-link" href="./assets/curves/avoid-unsafe-1.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the recorded value curve for a warning before contact"><img src="./assets/curves/avoid-unsafe-1.png" alt="The blue safety value becomes positive before the red collision signal. The green curve shows obstacle distance on the right axis." width="1920" height="1080" loading="lazy"><span class="curve-enlarge">Enlarge curve <span aria-hidden="true">↗</span></span></a></figure>
+        </div>
+      </article>
+      <article class="experiment-card" data-task="avoid">
+        <div class="experiment-top"><span class="eyebrow">Avoidance / G1 Collision</span><span class="outcome safe">Safe outcome</span></div>
+        <div class="experiment-body"><div><h3>A warning without a collision</h3><p>The robot avoids contact and the instantaneous signal stays negative. Positive value predictions illustrate conservative warnings in these trials.</p></div><div class="trial-picker" role="group" aria-label="A warning without a collision trial selection"><button type="button" data-clip="avoid-safe-1" aria-pressed="true" class="is-active">Trial 1</button><button type="button" data-clip="avoid-safe-2" aria-pressed="false">Trial 2</button></div></div>
+        <div class="trial-media">
+          <figure class="trial-video"><figcaption><span>On the real robot</span><span class="small-label">Slow motion</span></figcaption><video controls muted playsinline preload="metadata" poster="./assets/posters/avoid-safe-1.jpg" aria-label="A warning without a collision: slow-motion hardware trial"><source src="./assets/videos/avoid-safe-1.mp4" type="video/mp4"></video></figure>
+          <figure class="trial-curve"><figcaption><span>Recorded value curves</span><a class="curve-open small-label" href="./assets/curves/avoid-safe-1.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the full recorded trial curve">Full trial ↗</a></figcaption><a class="curve-link" href="./assets/curves/avoid-safe-1.png" target="_blank" rel="noopener noreferrer" aria-label="Enlarge the recorded value curve for a warning without a collision"><img src="./assets/curves/avoid-safe-1.png" alt="The red collision signal stays negative while the blue safety value has positive intervals. The green curve shows obstacle distance on the right axis." width="1920" height="1080" loading="lazy"><span class="curve-enlarge">Enlarge curve <span aria-hidden="true">↗</span></span></a></figure>
+        </div>
       </article>
     </div>
-    <p class="note">Outcome labels describe what happens in each recorded trial. A “safe outcome” does not imply that the learned monitor remains negative throughout the trial.</p>
+    <p class="note">Each plot shows the full recorded trial; select a plot to enlarge it. Blue shading marks intervals when the learned value is positive while the current signal is nonpositive; red shading marks an observed violation. A safe outcome can still include positive predictions from the learned monitor.</p>
   </section>
 
   <section class="section shell paper-section" id="paper" aria-labelledby="paper-title">
     <div class="paper-banner"><div><p class="eyebrow">05 / Continue exploring</p><h2 id="paper-title">Paper, code &amp; citation.</h2><p>Read the formulation and proofs, or explore the training and deployment workflows.</p></div><div class="actions"><a class="button primary" href="https://arxiv.org/abs/2606.16022" target="_blank" rel="noopener noreferrer">Paper on arXiv <span aria-hidden="true">↗</span></a><a class="button secondary" href="https://github.com/intelligent-control-lab/lambda_reach" target="_blank" rel="noopener noreferrer">GitHub code <span aria-hidden="true">↗</span></a></div></div>
     <div class="citation-heading"><h3>BibTeX</h3><button id="copy-citation" type="button">Copy citation <span aria-hidden="true">⧉</span></button></div>
-    <pre id="citation"><code>@article{chen2026lambdareachability,
-  index = {U},
+    <pre id="citation"><code>@inproceedings{chen2026lambdareachability,
   title = {$\lambda$-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety},
-  author = {Chen, Rui and Li, Shangtao and Sun, Yifan and Liu, Changliu},
+  author = {Rui Chen and Shangtao Li and Yifan Sun and Changliu Liu},
   year = {2026},
-  journal = {arXiv:2606.16022},
+  booktitle = {Conference on Robot Learning},
   url = {https://arxiv.org/abs/2606.16022},
   website = {https://intelligent-control-lab.github.io/lambda_reach/},
   youtube = {https://www.youtube.com/watch?v=sW9JjJ73NJ4},
   code = {https://github.com/intelligent-control-lab/lambda_reach}
 }</code></pre>
-    <p class="note" id="copy-status" role="status" aria-live="polite">arXiv citation; accepted to CoRL 2026.</p>
+    <p class="note" id="copy-status" role="status" aria-live="polite">Conference on Robot Learning, 2026.</p>
   </section>
 </main>
 <footer class="shell site-footer"><p><span class="footer-brand">λ-Reachability</span><br>Intelligent Control Lab · Carnegie Mellon University</p><p>Design adapted from our <a href="https://intelligent-control-lab.github.io/humanoid_stoppability/" target="_blank" rel="noopener noreferrer">Safe-Stoppability project</a>.<br><a href="#home">Back to top ↑</a></p></footer>

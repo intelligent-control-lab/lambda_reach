@@ -49,6 +49,10 @@ document.querySelectorAll('[data-clip]').forEach(button => {
     video.poster = new URL(`posters/${button.dataset.clip}.jpg`, assetsRoot).href;
     video.querySelector('source').src = new URL(`videos/${button.dataset.clip}.mp4`, assetsRoot).href;
     video.load();
+    const curveUrl = new URL(`curves/${button.dataset.clip}.png`, assetsRoot).href;
+    card.querySelector('.trial-curve img').src = curveUrl;
+    card.querySelector('.curve-link').href = curveUrl;
+    card.querySelector('.curve-open').href = curveUrl;
     card.querySelectorAll('[data-clip]').forEach(item => {
       const active = item === button;
       item.classList.toggle('is-active', active);

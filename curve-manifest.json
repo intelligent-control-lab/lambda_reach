@@ -1,0 +1,50 @@
+[
+  {
+    "output": "docs/assets/curves/push-safe-1.png",
+    "source": "web-material/web-material/push-safe 1/curve.mov",
+    "timestamp": 19.183333,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/push-safe-2.png",
+    "source": "web-material/web-material/push-safe 2/curve.mov",
+    "timestamp": 14.166667,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/push-unsafe-1.png",
+    "source": "web-material/web-material/push-unsafe 1/curve.mov",
+    "timestamp": 17.333333,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/push-unsafe-2.png",
+    "source": "web-material/web-material/push-unsafe 2/curve.mov",
+    "timestamp": 14.166667,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/avoid-safe-1.png",
+    "source": "web-material/web-material/avoid-safe 1/curve.mp4",
+    "timestamp": 11.334,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/avoid-safe-2.png",
+    "source": "web-material/web-material/avoid-safe 2/curve.mp4",
+    "timestamp": 14.067,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/avoid-unsafe-1.png",
+    "source": "web-material/web-material/avoid-unsafe 1/curve.mp4",
+    "timestamp": 11.417,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  },
+  {
+    "output": "docs/assets/curves/avoid-unsafe-2.png",
+    "source": "web-material/web-material/avoid-unsafe 2/curve.mp4",
+    "timestamp": 12.3,
+    "presentation": "Complete recorded curve; no playback time alignment implied."
+  }
+]
