@@ -1,10 +1,61 @@
 # $\lambda$-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety
 
-This repository contains the Isaac Lab environments, safety-value learning code, and hardware deployment notes used for the humanoid experiments in:
+This repository contains safety-value learning, evaluation and monitoring for the humanoid experiments in:
 
 > $\lambda$-Reachability: Geometric-Horizon Safety Bellman Equations for Humanoid Safety
 
-The code is organized around one workflow: train a deployable humanoid policy in Isaac Lab, roll out that fixed policy to collect safety-labeled trajectories, train safety value functions from those rollouts, and export the policy and safety value model for hardware evaluation.
+The maintained 29-DoF workflow trains the locomotion policy in SPARK's Isaac
+environment, collects rollouts in SPARK, and learns the reachability monitor
+here. It requires only `spark_dev` and this repository. The separate
+`unitree_rl_lab-lambda` and `unitree_mujoco-lambda` repositories are unnecessary.
+Use this repository's `spark` branch with
+[SPARK master](https://github.com/YIFANSUN98/spark_dev/tree/master)
+(commit `fd8e4df` or later). SPARK includes the qualified walking and avoidance
+actors under
+[`example/unitree_g1/locomotion/pretrained/`](https://github.com/YIFANSUN98/spark_dev/tree/master/example/unitree_g1/locomotion/pretrained).
+See [policy and monitor retraining](docs/SPARK_RETRAINING.md) for the complete
+commands, checked policy/value bundles and dependency-isolation checks.
+The [October training audit and results](docs/SPARK_TRAINING_PARITY.md) records
+the qualified SPARK-trained nominal and avoidance actors. Avoidance passed
+the gates covering 48 quiet Isaac/MuJoCo trials, 384 physical-ball MuJoCo trials
+and 128 disturbed Isaac trials. Its new monitor passed the held-out 512-episode
+accuracy gates and online execution in both simulators; the viewer uses that
+qualified SPARK-trained pair. The two legacy checkouts are archived outside
+the active Lambda folder with their Git histories retained.
+
+The integration adds:
+
+- Direct loading of SPARK HDF5 episodes, fixed episode splits, and separate
+  handling of physical termination and rollout cutoffs in the λ targets.
+- Fresh rollout collection, multi-seed value training, validation-only model
+  selection, and held-out accuracy evaluation with bootstrap intervals.
+- Hash-checked policy/value bundles and passive online monitoring in SPARK
+  MuJoCo and Isaac, including live MuJoCo viewer readouts.
+- Policy qualification, dependency-isolation checks, regression tests, and
+  migration/training reports. Original paper workflows remain available below.
+
+## SPARK MuJoCo monitor viewer
+
+With the local SPARK environment and trained monitor prepared, run:
+
+```bash
+bash deploy/avoid/run_spark_monitor.sh
+```
+
+This opens the simulator with live reachability-value readouts. The launcher uses
+this repository's `.venv` and `logs/safety_analysis/spark_29dof` checkpoint/output
+directory. See [SPARK integration](docs/SPARK_MIGRATION.md) for setup, training,
+and the validated scope. Monitor weights, datasets and run logs in `logs/` are
+local artifacts and are not included in Git. On a fresh checkout, follow
+[monitor training with the bundled SPARK actor](docs/SPARK_RETRAINING.md#train-a-monitor-from-that-exact-policy)
+and pass the resulting `--bundle` to the launcher.
+
+<details>
+<summary>Historical Isaac Lab / Unitree workflow and paper reproduction references</summary>
+
+The following instructions describe the original implementation. They remain
+available for reproduction and hardware reference; they are not installation
+requirements for the SPARK workflow above.
 
 ## Repository Layout
 
@@ -173,6 +224,8 @@ Optional formatting:
 python -m pip install pre-commit
 pre-commit run --all-files
 ```
+
+</details>
 
 ## License
 

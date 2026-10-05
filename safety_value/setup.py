@@ -16,6 +16,7 @@ setup(
         "numpy>=1.20.0",
         "matplotlib>=3.3.0",
         "h5py>=3.0.0",
+        "pandas>=1.5",
         "tqdm>=4.60.0",
     ],
 )

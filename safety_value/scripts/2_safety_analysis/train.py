@@ -68,6 +68,11 @@ def parse_args() -> argparse.Namespace:
     
     # Data arguments
     data_group = parser.add_argument_group('Data')
+    data_group.add_argument('--spark_data', type=Path, help='SPARK trajectory HDF5; bypass legacy pickle preprocessing')
+    data_group.add_argument('--split_manifest', type=Path, help='Fixed episode split JSON (created if absent)')
+    data_group.add_argument('--split_seed', type=int, default=0)
+    data_group.add_argument('--spark_endpoints', choices=['bootstrap', 'legacy'], default='bootstrap',
+                            help='Bootstrap at nonphysical cutoffs, or reproduce legacy finite endpoints')
     data_group.add_argument(
         '--safety_analysis_root',
         type=str,
@@ -242,6 +247,8 @@ def parse_args() -> argparse.Namespace:
     lambda_group.add_argument('--weight_bce', type=float, default=1.0, help='Weight for BCE sign loss')
     lambda_group.add_argument('--target_tau_lambda', type=float, default=0.005, help='Target Polyak tau')
     lambda_group.add_argument('--target_update_period', type=int, default=1, help='Target update period (steps)')
+    lambda_group.add_argument('--delta', type=float, default=.99, help='Stochastic survival probability per step')
+    lambda_group.add_argument('--v_term', type=float, default=-1e6, help='Absorbing baseline')
     
     parser.set_defaults(use_target_network=True)
     return parser.parse_args()
@@ -320,6 +327,18 @@ def save_training_config(args: argparse.Namespace, output_dir: str, input_dim: i
         'run_name': run_name,
         'results_subdir': getattr(args, 'results_subdir', ''),
     }
+    if args.spark_data is not None:
+        from safety_value.safety_analysis_algos.spark_dataset import dataset_hash
+        import h5py
+        with h5py.File(args.spark_data, 'r') as source:
+            provenance = json.loads(source.attrs['metadata_json'])
+        config['spark_dataset'] = {
+            'path': str(args.spark_data.resolve()), 'sha256': dataset_hash(args.spark_data),
+            'split_manifest': str(args.split_manifest.resolve()),
+            'split_sha256': dataset_hash(args.split_manifest), 'endpoints': args.spark_endpoints,
+            'source_metadata': provenance,
+        }
+        config['policy_sha256'] = provenance.get('policy_sha256')
     
     # Add algorithm-specific parameters
     if args.algo == 'dpe':
@@ -341,6 +360,8 @@ def save_training_config(args: argparse.Namespace, output_dir: str, input_dim: i
     elif args.algo == 'lambda_reachability':
         config['lambda_reachability'] = {
             'lambda_param': args.lambda_param,
+            'delta': args.delta,
+            'v_term': args.v_term,
             'max_horizon': args.max_horizon,
             'alpha_bce': args.alpha_bce,
             'weight_main': args.weight_main,
@@ -416,6 +437,8 @@ def create_trainer(args: argparse.Namespace, input_dim: int, train_ds, test_ds, 
         trainer = trainer_cls(
             **common_kwargs,
             lambda_param=args.lambda_param,
+            delta=args.delta,
+            v_term=args.v_term,
             max_horizon=args.max_horizon,
             alpha_bce=args.alpha_bce,
             weight_main=args.weight_main,
@@ -507,14 +530,22 @@ def main():
         torch.cuda.manual_seed_all(args.seed)
     
     # Resolve data paths
-    data_dir, train_pkl_path, test_pkl_path = resolve_data_paths(args)
-    
+    if args.spark_data is not None:
+        if args.train_pkl or args.test_pkl:
+            raise ValueError('Choose SPARK data or legacy pickle paths, not both')
+        from safety_value.safety_analysis_algos.spark_dataset import create_episode_split, SparkEpisodeDataset
+        data_dir = os.path.join(SAFETY_ANALYSIS_BASE, args.safety_analysis_root)
+        args.split_manifest = args.split_manifest or Path(data_dir) / 'episode_split.json'
+        split = create_episode_split(args.spark_data, args.split_manifest, seed=args.split_seed)
+        train_ds = SparkEpisodeDataset(args.spark_data, split['train'], endpoints=args.spark_endpoints)
+        test_ds = SparkEpisodeDataset(args.spark_data, split['test'], endpoints=args.spark_endpoints)
+        input_dim = train_ds.input_dim
+    else:
+        data_dir, train_pkl_path, test_pkl_path = resolve_data_paths(args)
+        train_ds = HJValueDataset(train_pkl_path)
+        test_ds = HJValueDataset(test_pkl_path) if test_pkl_path is not None else None
+        input_dim = train_ds.x.shape[1]
     print(f"Data directory: {data_dir}")
-    
-    # Load datasets (unified format for all algos)
-    train_ds = HJValueDataset(train_pkl_path)
-    test_ds = HJValueDataset(test_pkl_path) if test_pkl_path is not None else None
-    input_dim = train_ds.x.shape[1]
     print(f"Loaded training data: {len(train_ds)} samples, input_dim={input_dim}")
     if test_ds is not None:
         print(f"Loaded test data: {len(test_ds)} samples")

@@ -255,6 +255,11 @@ class LambdaReachabilityTrainer:
             n = self._sample_horizon(max_len)
             bootstrap_idx = n - 1  # because fut_obs starts at t+1
             is_terminal = (bootstrap_idx == fut_obs.shape[0] - 1)
+            # SPARK episodes distinguish physical termination from collector or
+            # event cutoffs. Legacy pickle batches retain the historical rule.
+            endpoint_terminal = getattr(batch, "future_terminal", None)
+            if endpoint_terminal is not None:
+                is_terminal = is_terminal and bool(endpoint_terminal[i])
 
             l_anchor = l[i].to(self.device).reshape(-1)[0]
             l_prefix = fut_l[:bootstrap_idx].view(-1)

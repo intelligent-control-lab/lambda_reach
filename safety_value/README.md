@@ -2,6 +2,20 @@
 
 This package contains the safety-value workflow used by the humanoid experiments. It collects safety rollouts, processes datasets, defines several safety value trainers, runs inference, and evaluates simulation or hardware logs.
 
+The new [SPARK workflow](../docs/SPARK_MIGRATION.md) uses SPARK for 29-DoF policy
+training, simulator execution, physical balls and trajectory export. This package
+loads those episodes and owns value learning and research monitoring. The legacy
+instructions below remain available for archived paper reproduction.
+
+For new experiments, follow [SPARK policy and monitor retraining](../docs/SPARK_RETRAINING.md).
+`scripts/train_spark_monitor.py` collects episodes for an explicit SPARK-trained
+actor, trains the λ value from scratch, evaluates held-out episodes, and writes
+a hash-checked deployment bundle. It does not import the old Isaac extension.
+
+To open the SPARK MuJoCo viewer with the locally trained reachability monitor,
+run `bash deploy/avoid/run_spark_monitor.sh` from the repository root. The launcher
+uses the repo-local `.venv` and `logs/safety_analysis/spark_29dof` checkpoint.
+
 ## Install
 
 Run from the repository root after activating the Python environment that has Isaac Lab installed:

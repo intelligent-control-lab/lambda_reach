@@ -53,6 +53,15 @@ class HJValueDataset(Dataset):
         return x, x_next, l, sample_safety_value, invariant, x_future, l_future
 
 
+class HJBatch(tuple):
+    """Seven legacy fields plus optional physical endpoint metadata."""
+
+    def __new__(cls, values, future_terminal=None):
+        obj = super().__new__(cls, values)
+        obj.future_terminal = future_terminal
+        return obj
+
+
 def hj_collate(batch):
     """Collate unified samples, keeping future trajectories as lists."""
     (
@@ -75,4 +84,7 @@ def hj_collate(batch):
     x_future = list(x_future_list)
     l_future = list(l_future_list)
 
-    return x, x_next, l, sample_safety_value, invariant, x_future, l_future
+    terminal = None
+    if all(hasattr(sample, "future_terminal") for sample in batch):
+        terminal = [sample.future_terminal for sample in batch]
+    return HJBatch((x, x_next, l, sample_safety_value, invariant, x_future, l_future), terminal)

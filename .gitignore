@@ -70,7 +70,12 @@ deploy/avoid/ros2_ws/src/natnet_ros2/
 /datasets/
 
 # Tests
-tests/
+tests/*
+!tests/test_spark_integration.py
+!tests/test_spark_value_benchmark.py
+!tests/test_spark_continuation.py
+!tests/test_spark_monitor_qualification.py
+!tests/test_spark_monitor_selection.py
 
 # Docker history
 .isaac-lab-docker-history
